@@ -1,0 +1,47 @@
+class Solution {
+public:
+    bool checkValidNumber(char c){
+        if(c == '.' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+            return false;
+        return true;
+    }
+    int helper(string str, bool sign){
+        int signNumber = sign ? 1 : -1;
+        int res = 0;
+        for(int i = 0; i < str.length(); i++){
+            int digit = str[i] - '0';
+            if(res > INT_MAX / 10 || res < INT_MIN / 10)
+                return sign ? INT_MAX : INT_MIN;
+            if(res == INT_MAX / 10 && digit > INT_MAX % 10) return INT_MAX;
+            if(res == INT_MIN / 10 && digit > abs(INT_MIN % 10)) return INT_MIN;
+            res = res * 10 + digit * signNumber;
+        }
+        return res;
+    }
+    int myAtoi(string s) {
+        int i = 0;
+        while(i < s.length()){
+            if(s[i] == ' ') i++;
+            else break;
+        }
+        if(i == s.length()) return 0;
+        if(!checkValidNumber(s[i]))
+            return 0;
+        bool sign;
+        int start = i;
+        if(s[i] >= '0' && s[i] <= '9'){
+            sign = true;
+        }else if(s[i] == '+'){
+            sign = true;
+            start++;
+        }else{
+            sign = false;
+            start++;
+        }
+        int end = start;
+        while(end < s.length() && s[end] >= '0' && s[end] <= '9') end++;
+        end--;
+        return helper(s.substr(start,end - start + 1), sign);
+
+    }
+};
