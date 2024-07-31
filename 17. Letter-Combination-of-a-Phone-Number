@@ -1,0 +1,33 @@
+/**
+ * @param {string} digits
+ * @return {string[]}
+ */
+var letterCombinations = function(digits) {
+    if(digits.length === 0)
+        return [];
+    let conversion = {
+        2: "abc",
+        3: "def",
+        4: "ghi",
+        5: 'jkl',
+        6: 'mno',
+        7: 'pqrs',
+        8: 'tuv',
+        9: 'wxyz'
+    }
+    let res = [];
+    let str = [];
+    function helper(i){
+        if(i === digits.length){
+            res.push(str.join(""));
+            return;
+        }
+        for(let c of conversion[digits[i]]){
+            str.push(c);
+            helper(i+1);
+            str.pop();
+        }
+    }
+    helper(0)
+    return res;
+};
