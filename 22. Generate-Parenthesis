@@ -1,0 +1,28 @@
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var generateParenthesis = function(n) {
+    let res = [];
+    let str = [];
+
+    function helper(i, open, close){
+        if(open === n && close === n){
+            res.push(str.join(""));
+            return;
+        }
+        if(open < n){
+            str.push('(');
+            helper(i, open + 1, close);
+            str.pop();
+        }
+        if(close < open){
+            str.push(')')
+            helper(i, open, close+1);
+            str.pop();
+        }
+    }
+
+    helper(0,0,0);
+    return res;
+};
