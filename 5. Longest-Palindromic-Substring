@@ -1,0 +1,24 @@
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var longestPalindrome = function(s) {
+    let n = s.length;
+    let length = 1;
+    let start = 0;
+    let dp = Array.from({length: n }, () => new Array(n).fill(true));
+    for(let i = n - 1; i >= 0; i--){
+        for(let j = i + 1; j < n; j++){
+            dp[i][j] = s[i] === s[j] && dp[i+1][j-1];
+            if(dp[i][j]){
+                if(j - i + 1 > length){
+                    length = j - i + 1;
+                    start = i;
+                }
+            }
+        }
+    }
+    return s.slice(start,start+length);
+
+
+};
