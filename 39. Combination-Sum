@@ -1,0 +1,30 @@
+/**
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+var combinationSum = function(candidates, target) {
+    candidates.sort((a,b) => a-b);
+    let res = [];
+    let sequence = [];
+    function helper(i, sum){
+        if(sum > target) return;
+        if(i === candidates.length){
+            if(sum === target){
+                res.push([...sequence]);
+            }
+            return;
+        }
+        
+        sum += candidates[i];
+        sequence.push(candidates[i]);
+        helper(i,sum);
+        sequence.pop();
+        sum -= candidates[i];
+
+        helper(i+1,sum);
+    }
+
+    helper(0,0);
+    return res;
+};
