@@ -1,0 +1,23 @@
+/**
+ * @param {character[][]} board
+ * @return {boolean}
+ */
+var isValidSudoku = function(board) {
+    let row = Array.from({length: 9}, () => new Array(9).fill(0));
+    let col = Array.from({length: 9}, () => new Array(9).fill(0));
+    let sub = Array.from({length: 9}, () => new Array(9).fill(0));
+    for(let i = 0; i < 9; i++){
+        for(let j = 0; j < 9; j++){
+            if(board[i][j] === '.')
+                continue;
+            let index = board[i][j].charCodeAt(0) - '0'.charCodeAt(0) - 1;
+            let subIndex = 3 * Math.floor(i / 3) + Math.floor(j / 3);
+            if(row[i][index] > 0 || col[j][index] > 0 || sub[subIndex][index] > 0)
+                return false;
+            row[i][index]++;
+            col[j][index]++;
+            sub[subIndex][index]++;
+        }
+    }
+    return true;
+};
