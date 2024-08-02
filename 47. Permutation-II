@@ -1,0 +1,31 @@
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var permuteUnique = function(nums) {
+    let freq = {};
+    for(let n of nums){
+        if(!(n in freq)) freq[n] = 0;
+        freq[n]++;
+    }
+    let keys = Object.keys(freq);
+    let res = []
+    let sequence = []
+
+    function helper(){
+        if(sequence.length === nums.length){
+            res.push([...sequence]);
+            return;
+        }
+        for(let k of keys){
+            if(freq[k] === 0)
+                continue;
+            sequence.push(+k);
+            freq[k]--;
+            helper();
+            sequence.pop();
+            freq[k]++;
+        }
+    }
+    return res;
+};
