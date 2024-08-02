@@ -1,0 +1,23 @@
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var jump = function(nums) {
+    let n = nums.length;
+    if(n === 1) return 0;
+    let farthest = 0;
+    let currentMaxReach = 0;
+    let jump = 0;
+    let i = 0;
+    while(i < n){
+        farthest = Math.max(farthest,i + nums[i]);
+        if(i === currentMaxReach){
+            jump++;
+            currentMaxReach = farthest;
+            if(currentMaxReach >= n - 1)
+                return jump;
+        }
+        i++;
+    }
+    return jump;
+};
