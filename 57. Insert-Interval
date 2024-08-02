@@ -1,0 +1,24 @@
+/**
+ * @param {number[][]} intervals
+ * @param {number[]} newInterval
+ * @return {number[][]}
+ */
+var insert = function(intervals, newInterval) {
+    let n = intervals.length;
+    let res = []
+    let [s,e] = newInterval;
+    for(let i = 0; i < n; i++){
+        let [newS, newE] = intervals[i];
+        if(e < newS){
+            res.push([s,e]);
+            [s,e] = [newS, newE];
+        }else if(s > newE){
+            res.push([newS,newE]);
+        }else{
+            s = Math.min(s,newS);
+            e = Math.max(e,newE);
+        }
+    }
+    res.push([s,e]);
+    return res;
+};
