@@ -1,0 +1,19 @@
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var minPathSum = function(grid) {
+    let m = grid.length;
+    let n = grid[0].length;
+    let dp = Array.from({length: m}, () => new Array(n).fill(0))
+
+    dp[0][0] = grid[0][0];
+    for(let col = 1; col < n; col++) dp[0][col] = dp[0][col-1] + grid[0][col];
+    for(let row = 1; row < m; row++) dp[row][0] = dp[row-1][0] + grid[row][0];
+    for(let i = 1; i < m; i++){
+        for(let j = 1; j < n; j++)
+            dp[i][j] = Math.min(dp[i-1][j],dp[i][j-1]) + grid[i][j];
+    }
+    return dp[m-1][n-1];
+
+};
