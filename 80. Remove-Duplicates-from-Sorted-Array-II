@@ -1,0 +1,41 @@
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var removeDuplicates = function(nums) {
+    let i = 1;
+    let j = 1;
+    let cnt = 1;
+    let prev = nums[0];
+    while(i < nums.length){
+        if(nums[i] === prev){
+            cnt++;
+            if(cnt <= 2){
+                [nums[j],nums[i]] = [nums[i],nums[j]];
+                j++;
+            }
+        }else{
+            prev = nums[i];
+            [nums[j],nums[i]] = [nums[i],nums[j]];
+            cnt = 1;
+            j++;
+        }
+        i++;
+    }
+    return j;
+};
+
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var removeDuplicates = function(nums) {
+    let count = 0;
+    for(let current of nums){
+        if(count < 2 || nums[count-2] != current){
+            nums[count++] = current;
+        }
+    }
+    return count;
+};
