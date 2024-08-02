@@ -1,0 +1,25 @@
+/**
+ * @param {number} n
+ * @return {number[][]}
+ */
+var generateMatrix = function(n) {
+    let totalElements = n * n;
+    let res = Array.from({length: n}, () => new Array(n).fill(0));
+    let visited = Array.from({length: n}, () => new Array(n).fill(false));
+    let row = 0;
+    let col = 0;
+    let directions = [0,1,0,-1,0]
+    let directionIndex = 0;
+    for(let val = 1; val <= totalElements; val++){
+        res[row][col] = val;
+        visited[row][col] = true;
+        let nRow = row + directions[directionIndex];
+        let nCol = col + directions[directionIndex+1];
+        if(nRow < 0 || nRow >= n || nCol < 0 || nCol >= n || visited[nRow][nCol]){
+            directionIndex = (directionIndex + 1) % 4;
+        }
+        row = row + directions[directionIndex];
+        col = col + directions[directionIndex+1];
+    }
+    return res;
+};
