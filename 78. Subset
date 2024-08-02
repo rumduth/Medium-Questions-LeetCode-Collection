@@ -1,0 +1,23 @@
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var subsets = function(nums) {
+    let res = [];
+    let sequence = [];
+
+    function helper(index){
+        if(index === nums.length){
+            res.push([...sequence]);
+            return;
+        }
+        sequence.push(nums[index]);
+        helper(index+1);
+        sequence.pop();
+        helper(index+1);
+
+    }
+
+    helper(0);
+    return res;
+};
