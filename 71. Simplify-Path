@@ -1,0 +1,26 @@
+/**
+ * @param {string} path
+ * @return {string}
+ */
+var simplifyPath = function(path) {
+    let pathElements = path.split("/").filter(el => el !== "");
+    let stack = [];
+    for(let el of pathElements){
+        if(stack.length === 0){
+            if(el === "." || el === "..")
+                continue;
+            stack.push(el);
+        }
+        else{
+            if(el === '.')
+                continue;
+            else if(el === '..')
+                stack.pop();
+            else
+                stack.push(el);
+        }
+    }
+
+    return "/" + stack.join("/");
+
+};
