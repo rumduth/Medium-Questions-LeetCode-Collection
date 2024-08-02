@@ -1,0 +1,86 @@
+/**
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
+var spiralOrder = function(matrix) {
+    let m = matrix.length;
+    let n = matrix[0].length;
+    let totalElements = m * n;
+    let res = []
+    let cnt = 0;
+    let r1 = 0, r2 = m - 1, c1 = 0, c2 = n - 1;
+    while(true){
+        let c = c1;
+        while(c <= c2){
+            res.push(matrix[r1][c++]);
+            cnt++;
+            if(cnt === totalElements)
+                return res;
+        }
+        r1++;
+
+        let r = r1;
+        while(r <= r2){
+            res.push(matrix[r++][c2])
+            cnt++;
+            if(cnt === totalElements)
+                return res;
+        }
+        c2--;
+
+        c = c2;
+        while(c >= c1){
+            res.push(matrix[r2][c--]);
+            cnt++;
+            if(cnt === totalElements)
+                return res;
+        }
+        r2--;
+
+        r = r2;
+        while(r >= r1){
+            res.push(matrix[r--][c1])
+            cnt++;
+            if(cnt === totalElements)
+                return res;
+        }
+        c1++;
+    }
+    return;
+};
+
+
+
+
+
+
+
+
+
+/**
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
+var spiralOrder = function(matrix) {
+    let m = matrix.length;
+    let n = matrix[0].length;
+    let directions = [0,1,0,-1,0];
+    let visited = Array.from({length: m}, () => new Array(n).fill(false));
+    let row = 0;
+    let col = 0;
+    let dIndex = 0;
+    let res = []
+    for(let i = 0; i < m * n; i++){
+        res.push(matrix[row][col]);
+        visited[row][col] = true;
+        let nRow = row + directions[dIndex];
+        let nCol = col + directions[dIndex + 1];
+        if(nRow < 0 || nRow === m || nCol < 0 || nCol === n || visited[nRow][nCol]){
+            dIndex = (dIndex + 1) % 4;
+        }
+        row = row + directions[dIndex];
+        col = col + directions[dIndex + 1];
+        
+    }
+    return res;
+};
