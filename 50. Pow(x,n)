@@ -1,0 +1,42 @@
+class Solution {
+public:
+    unordered_map<int, double> memo;
+    double myPow(double x, int n) {
+        long long k = n;
+        if(n < 0){
+            x = 1/x;
+            k = abs(k);
+        }
+        if(n == 0)
+            return 1;
+        if(x == 0)
+            return 0;
+        if(memo.count(k))
+            return memo[k];
+        if(k % 2 == 0){
+            memo[k] = myPow(x,k/2) *  myPow(x,k/2);
+            return memo[k];
+        }   
+        memo[k] = x * myPow(x,(k-1)/2) * myPow(x,(k-1)/2);
+        return memo[k];
+    }
+};
+
+
+
+class Solution {
+public:
+    double quickPow(double base, long long exponent){
+        double res = 1.0;
+        while(exponent > 0){
+            if(exponent & 1)
+                res *= base;
+            base = base * base;
+            exponent >>= 1;
+        }
+        return res;
+    }
+    double myPow(double x, int n) {
+        return n >= 0 ? quickPow(x,n) : 1.0 / quickPow(x,-(long long) n);
+    }
+};
