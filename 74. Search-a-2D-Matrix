@@ -1,0 +1,63 @@
+/**
+ * @param {number[][]} matrix
+ * @param {number} target
+ * @return {boolean}
+ */
+var searchMatrix = function(matrix, target) {
+    let m = matrix.length;
+    let n = matrix[0].length;
+    let r1 = 0;
+    let r2 = m;
+    while(r1 < r2){
+        let m = Math.floor((r1 + r2) / 2);
+        if(matrix[m][n-1] >= target)
+            r2 = m;
+        else
+            r1 = m + 1;
+    }
+    if(r1 === m)
+        return false;
+    let c1 = 0;
+    let c2 = n;
+    while(c1 < c2){
+        let m = Math.floor((c1 + c2) / 2);
+        if(matrix[r1][m] >= target)
+            c2 = m;
+        else
+            c1 = m + 1;
+    }
+    if(c1 === n)
+        return false;
+    return matrix[r1][c1] === target;
+};
+
+
+
+/**
+ * @param {number[][]} matrix
+ * @param {number} target
+ * @return {boolean}
+ */
+var searchMatrix = function(matrix, target) {
+    let m = matrix.length;
+    let n = matrix[0].length;
+    let left = 0;
+    let right = m * n;
+    let rowIndex = colIndex = 0;
+    while(left < right){
+        let mid = Math.floor((left + right) >> 1);
+        rowIndex = Math.floor(mid / n);
+        colIndex = mid % n;
+        if(matrix[rowIndex][colIndex] >= target)
+            right = mid;
+        else
+            left = mid + 1;
+        console.log(left,right);
+    }
+    if(left == m * n)
+        return false;
+    let mid = Math.floor((left + right) >> 1);
+    rowIndex = Math.floor(mid / n);
+    colIndex = mid % n;
+    return matrix[rowIndex][colIndex] === target;
+};
