@@ -17,3 +17,26 @@ var minPathSum = function(grid) {
     return dp[m-1][n-1];
 
 };
+
+
+
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var minPathSum = function(grid) {
+    let m = grid.length;
+    let n = grid[0].length;
+    let dp = Array.from({length: n}, () => 0)
+    dp[0] = grid[0][0];
+    for(let col = 1; col < n; col++) dp[col] = dp[col-1] + grid[0][col];
+    for(let i = 1; i < m; i++){
+        for(let j = 0; j < n; j++)
+        if(j === 0){
+            dp[j] += grid[i][j];
+        }else
+            dp[j] = Math.min(dp[j],dp[j-1]) + grid[i][j];
+    }
+    return dp[n-1];
+
+};
