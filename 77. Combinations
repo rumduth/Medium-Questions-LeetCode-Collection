@@ -1,0 +1,51 @@
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {number[][]}
+ */
+var combine = function(n, k) {
+    let res = []
+    let sequence = []
+    function helper(start){
+        if(start == n+1){
+            if(sequence.length === k){
+            res.push([...sequence]);
+            }
+            return;
+        }
+        sequence.push(start);
+        helper(start+1);
+        sequence.pop();
+        helper(start+1);
+    }
+
+    helper(1);
+    return res;
+};
+
+
+
+
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {number[][]}
+ */
+var combine = function(n, k) {
+    let res = []
+    let sequence = []
+    function helper(index){
+        if(sequence.length === k){
+            res.push([...sequence]);
+            return;
+        }
+        for(let i = index; i <= n; i++){
+            sequence.push(i);
+            helper(i+1);
+            sequence.pop();
+        }
+        
+    }
+    helper(1);
+    return res;
+};
