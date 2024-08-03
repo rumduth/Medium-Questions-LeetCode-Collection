@@ -1,0 +1,22 @@
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var numDecodings = function(s) {
+    if(s[0] === '0')
+        return 0;
+    let n = s.length;
+    let dp = new Array(n + 1).fill(0);
+    dp[0] = 1;
+    dp[1] = 1;
+    for(let i = 2; i <= n; i++){
+        let prevDigit = s[i-2].charCodeAt(0) - '0'.charCodeAt(0);
+        let currentDigit = s[i-1].charCodeAt(0) - '0'.charCodeAt(0);
+        if(currentDigit !== 0){
+            dp[i] += dp[i-1];
+        }
+        if((prevDigit * 10 + currentDigit) <= 26 && (prevDigit * 10 + currentDigit) >= 10)
+            dp[i] += dp[i-2];
+    }
+    return dp[n];
+};
