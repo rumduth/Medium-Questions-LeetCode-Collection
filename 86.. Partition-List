@@ -1,0 +1,47 @@
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} x
+ * @return {ListNode}
+ */
+var partition = function(head, x) {
+    if(head === null || head.next === null)
+        return head;
+    
+    let less = null;
+    let nextLess = null;
+    let more = null;
+    let nextMore = null;
+    while(head !== null){
+        if(head.val < x){
+            if(!less){
+                less = nextLess = head;
+            }else{
+                nextLess.next = head;
+                nextLess = nextLess.next;
+            }
+        }else{
+            if(!more){
+                more = nextMore = head;
+            }else{
+                nextMore.next = head;
+                nextMore = nextMore.next;
+            }
+        }
+        head = head.next;
+    }
+    if(!less)
+        return more;
+    if(!more)
+        return less;
+    nextLess.next = more;
+    nextMore.next = null;
+    return less;
+
+};
