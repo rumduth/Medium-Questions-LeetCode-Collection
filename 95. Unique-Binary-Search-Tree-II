@@ -1,0 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {number} n
+ * @return {TreeNode[]}
+ */
+var generateTrees = function(n) {
+    let memo = {};
+    function helper(left, right){
+        let key = `${left}-${right}`;
+        if(key in memo) return memo[key];
+        if(left > right)
+            return [null];
+        if(left === right)
+            return [new TreeNode(left)];
+        let subtree = [];
+        for(let i = left; i <= right; i++){
+            let leftSubtree = helper(left,i-1);
+            let rightSubtree = helper(i+1,right);
+            for(let l of leftSubtree){
+                for(let r of rightSubtree){
+                    let root = new TreeNode(i);
+                    root.left = l;
+                    root.right = r;
+                    subtree.push(root);
+                }
+            }
+        }
+        memo[key] = subtree;
+        return subtree;
+    }
+    return  helper(1,n);
+};
