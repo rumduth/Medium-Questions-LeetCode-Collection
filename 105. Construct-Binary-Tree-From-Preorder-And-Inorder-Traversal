@@ -1,0 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {number[]} preorder
+ * @param {number[]} inorder
+ * @return {TreeNode}
+ */
+var buildTree = function(preorder, inorder) {
+    let n = preorder.length;
+
+    function helper(preLeft, preRight, inLeft, inRight){
+        if(preLeft > preRight || inLeft > inRight)
+            return null;
+        let root = new TreeNode(preorder[preLeft]);
+        let pivot = inLeft;
+        while(inorder[pivot] !== root.val) pivot++;
+        let length = pivot - inLeft;
+        console.log(length)
+        root.left = helper(preLeft+1,preLeft+length,inLeft,pivot-1);
+        root.right = helper(preLeft + length + 1, preRight, pivot+1,inRight);
+        return root;
+    }
+
+    return helper(0,n-1,0,n-1); 
+};
