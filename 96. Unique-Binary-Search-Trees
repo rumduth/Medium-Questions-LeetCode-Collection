@@ -1,0 +1,29 @@
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var numTrees = function(n) {
+    let memo = {};
+    memo[1] = 1;
+    memo[2] = 2;
+    memo[3] = 5;
+
+    function helper(left, right){
+        let key = right - left + 1;
+        if(left > right)
+            return 1;
+        if(key in memo)
+            return memo[key];
+        let res = 0;
+        for(let i = left; i <= right; i++){
+            let subLeft = helper(left,i-1);
+            let subRight = helper(i+1,right);
+            res += subLeft * subRight;
+        }
+        memo[key] = res;
+        return res;
+    }
+
+    return helper(1,n);
+
+};
