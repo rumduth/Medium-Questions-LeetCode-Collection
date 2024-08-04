@@ -1,0 +1,33 @@
+/**
+ * @param {string} s
+ * @return {string[]}
+ */
+var restoreIpAddresses = function(s) {
+    let res = []
+    let sequence = [];
+
+    function backtrack(i){
+        if(sequence.length === 4 && i === s.length){
+            res.push(sequence.join('.'));
+            return;
+        }
+        if(sequence.length >= 4)
+            return;
+
+        for(let length = 1; length <= 3; length++){
+            if(i + length > s.length)
+                return;
+            let number = s.slice(i,i+length);
+            if(length === 2 && (number < 10 || number >= 100))
+                continue;
+            if(length === 3 && (number < 100 || number > 255))
+                continue;
+            sequence.push(number);
+            backtrack(i+length);
+            sequence.pop();
+        }
+    }
+
+    backtrack(0);
+    return res;
+};
