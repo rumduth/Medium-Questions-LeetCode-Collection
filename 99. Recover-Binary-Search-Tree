@@ -1,0 +1,35 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {void} Do not return anything, modify root in-place instead.
+ */
+var recoverTree = function(root) {
+    let firstNode = null;
+    let secondNode = null;
+    let prevNode = null;
+    function helper(root){
+        if(!root)
+            return;
+        helper(root.left);
+        if(prevNode){
+            if(prevNode.val > root.val){
+                if(!firstNode)
+                    firstNode = prevNode;
+                secondNode = root;
+            }
+        }
+        prevNode = root;
+        helper(root.right);
+    }
+
+    helper(root);
+    [firstNode.val,secondNode.val] = [secondNode.val,firstNode.val];
+
+};
