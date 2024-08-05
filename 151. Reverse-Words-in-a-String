@@ -1,0 +1,15 @@
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseWords = function(s) {
+    let words = s.split(" ").filter(el => el !== "").reverse().join(' ')
+    return words;
+};
+
+
+
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        words = s.split()[::-1]
+        return ' '.join(words)
