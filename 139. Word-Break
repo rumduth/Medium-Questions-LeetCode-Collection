@@ -1,0 +1,27 @@
+/**
+ * @param {string} s
+ * @param {string[]} wordDict
+ * @return {boolean}
+ */
+var wordBreak = function(s, wordDict) {
+    let n = s.length;
+    let dp = new Array(n+1).fill(false);
+    let hashMap = {}
+    for(let word of wordDict) hashMap[word] = true;
+
+    dp[0] = true;
+    for(let i = 0; i < n; i++){
+        if(!dp[i])
+            continue;
+        for(let word of wordDict){
+            if(i + word.length > s.length)
+                continue;
+            let current = s.slice(i,i+word.length)
+            if(hashMap[current])
+                dp[i + word.length] = true;
+            
+        }
+    }
+    return dp[n]
+
+};
