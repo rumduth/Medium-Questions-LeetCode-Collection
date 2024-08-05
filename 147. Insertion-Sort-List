@@ -1,0 +1,24 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def insertionSortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dummyNode = ListNode(-500000)
+        dummyNode.next = head
+        current = head
+        prev = dummyNode
+        while current:
+            if current.val >= prev.val:
+                prev = current
+                current = current.next
+            else:
+                prev.next = current.next
+                p = dummyNode
+                while p.next and p.next.val < current.val:
+                    p = p.next
+                current.next = p.next
+                p.next = current
+                current = prev.next
+        return dummyNode.next
