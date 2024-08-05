@@ -1,0 +1,22 @@
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var longestConsecutive = function(nums) {
+    const hash_map = {}
+    for(let num of nums)
+        hash_map[num] = true;
+    
+    let res = 0
+    for(let num of nums){
+        if((num - 1) in hash_map)
+            continue;
+        let sequence = 0
+        while(num in hash_map){
+            sequence++;
+            num = num + 1;
+        }
+        res = Math.max(res,sequence);
+    }
+    return res;
+};
