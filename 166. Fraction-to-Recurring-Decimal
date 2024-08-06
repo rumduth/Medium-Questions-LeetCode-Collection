@@ -1,0 +1,43 @@
+/**
+ * @param {number} numerator
+ * @param {number} denominator
+ * @return {string}
+ */
+var fractionToDecimal = function(numerator, denominator) {
+    if(numerator % denominator === 0)
+        return numerator / denominator + "";
+    let positive = ((numerator > 0) ^ (denominator > 0)) === 1 ? false : true;
+    numerator = Math.abs(numerator);
+    denominator = Math.abs(denominator);
+    let integerPart = []
+    
+    let q = Math.floor(numerator / denominator);
+    integerPart.push(q);
+    numerator -= q * denominator;
+
+    let integer = integerPart.join("");
+    let fractionPart = []
+    memo = {};
+    let i = 0;
+    let res = undefined
+    while(numerator !== 0){
+        if(numerator in memo){
+            let nonRepeatFraction = fractionPart.slice(0,memo[numerator]).join("");
+            let repeatFraction = fractionPart.slice(memo[numerator]).join("");
+            res = integer + "." + nonRepeatFraction + '(' + repeatFraction + ')';
+            break;
+        }
+        memo[numerator] = i;
+        numerator = numerator * 10;
+        let q = Math.floor(numerator / denominator);
+        fractionPart.push(q);
+        numerator -= q * denominator;
+        i++
+    }
+    if(numerator === 0){
+        let fraction = fractionPart.join("")
+        res = integer + '.' + fraction
+    }
+    if(positive) return res;
+    return '-' + res;
+};
