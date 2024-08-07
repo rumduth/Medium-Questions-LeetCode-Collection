@@ -1,0 +1,10 @@
+# Write your MySQL query statement below
+WITH cte AS (
+    SELECT Logs.num, prevTable.num AS prev, afterTable.num AS after
+    FROM Logs
+    LEFT JOIN Logs AS prevTable ON Logs.id - 1 = prevTable.id
+    LEFT JOIN Logs AS afterTable ON Logs.id + 1 = afterTable.id
+)
+
+SELECT DISTINCT num AS ConsecutiveNums FROM cte
+WHERE num = prev AND num = after;
