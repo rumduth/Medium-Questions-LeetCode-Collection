@@ -1,0 +1,24 @@
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        res = []
+        sequence = []
+
+        def backtrack(index, sum):
+            if sum == n and len(sequence) == k:
+                res.append(sequence[:])
+                return
+            if index >= 10 or sum > n or len(sequence) > k:
+                return
+            
+            for i in range(index,10):
+                sum += i
+                sequence.append(i)
+                backtrack(i+1,sum)
+                sequence.pop()
+                sum -= i
+            
+        
+        backtrack(1,0)
+        return res
+
+
