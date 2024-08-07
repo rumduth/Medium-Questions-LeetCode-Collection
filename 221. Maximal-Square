@@ -1,0 +1,22 @@
+class Solution:
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+        m = len(matrix)
+        n = len(matrix[0])
+        res = 0
+        squareLength = [[0 for _ in range(n)] for _ in range(m)]
+        for col in range(n):
+            if matrix[0][col] == '1':
+                squareLength[0][col] = 1
+                res = 1
+            
+        for row in range(m):
+            if matrix[row][0] == '1':
+                squareLength[row][0] = 1
+                res = 1
+        for i in range(1,m):
+            for j in range(1,n):
+                if matrix[i][j] == '0':
+                    continue
+                squareLength[i][j] = 1 + min(squareLength[i-1][j],squareLength[i][j-1],squareLength[i-1][j-1])
+                res = max(res,squareLength[i][j] * squareLength[i][j])
+        return res
