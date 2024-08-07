@@ -1,0 +1,40 @@
+/**
+ * @param {string} s
+ * @return {string[]}
+ */
+var findRepeatedDnaSequences = function(s) {
+    let hash_map = {}
+    s = s.split("")
+    let sequence = s.slice(0,9)
+    let res = [];
+
+    for(let i = 9; i < s.length; i++){
+        sequence.push(s[i]);
+        let key = sequence.join('');
+        if(!(key in hash_map))
+            hash_map[key] = 0;
+        hash_map[key]++;
+        if(hash_map[key] === 2)
+            res.push(key)
+        sequence.shift();
+
+    }
+    
+    return res;
+    
+};
+
+
+
+class Solution:
+    def findRepeatedDnaSequences(self, s: str) -> List[str]:
+        sequence_count = Counter()
+        repeated_sequence = []
+        num_substrings = len(s) - 10
+        for i in range(num_substrings + 1):
+            subsequence = s[i:i+10]
+            sequence_count[subsequence] += 1
+            if sequence_count[subsequence] == 2:
+                repeated_sequence.append(subsequence)
+        
+        return repeated_sequence
