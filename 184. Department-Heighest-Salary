@@ -1,0 +1,9 @@
+# Write your MySQL query statement below
+WITH salaryRanking AS(
+    SELECT name, salary, departmentID, MAX(salary) OVER(PARTITION BY departmentID) AS highestSalary FROM Employee
+),
+cte AS(
+    SELECT * FROM salaryRanking WHERE salary = highestSalary
+)
+SELECT Department.name AS Department, cte.name AS Employee, salary FROM cte
+JOIN Department ON Department.id = cte.departmentId;
