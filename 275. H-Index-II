@@ -1,0 +1,15 @@
+class Solution:
+    def hIndex(self, citations: List[int]) -> int:
+        n = len(citations)
+        left = 0
+        right = n - 1
+        res = 0
+        while left <= right:
+            m = (left + right) >> 1
+            if citations[m] >= n - m:
+                res = max(res,n-m)
+                right = m - 1
+            else:
+                left = m + 1
+        
+        return res
