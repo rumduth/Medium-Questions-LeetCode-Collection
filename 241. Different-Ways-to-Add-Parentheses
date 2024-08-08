@@ -1,0 +1,32 @@
+class Solution:
+    def diffWaysToCompute(self, expression: str) -> List[int]:
+        cache = {}
+        n = len(expression)
+        def backtrack(i,j):
+            if i == j:
+                return [int(expression[i])]
+            key = f"{i}-{j}"
+            if key in cache:
+                return cache[key]
+
+            cal = []
+            for k in range(i, j + 1):
+                if expression[k] in '+-*':
+                    left = backtrack(i,k-1)
+                    right = backtrack(k+1,j)
+                    for l in left:
+                        for r in right:
+                            if expression[k] == '+':
+                                cal.append(l + r)
+                            elif expression[k] == '-':
+                                cal.append(l - r)
+                            else:
+                                cal.append(l * r)
+            if len(cal) == 0:
+                return [int(expression[i:j+1])]
+            cache[key] = cal
+            return cal
+
+        
+        
+        return backtrack(0,n-1)
