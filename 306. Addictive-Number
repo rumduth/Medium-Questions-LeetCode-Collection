@@ -1,0 +1,27 @@
+class Solution:
+    def isAdditiveNumber(self, num: str) -> bool:
+        n = len(num)
+        
+        def dfs(a,b,num):
+            if len(num) == 0:
+                return True
+            if a + b > 0 and num[0] == '0':
+                return False
+            for i in range(len(num)):
+                if a + b == int(num[:i+1]):
+                    if dfs(b,a+b,num[i+1:]):
+                        return True
+            return False
+
+        for i in range(n-2):
+            for j in range(i+1,n-1):
+                if i > 0 and num[0] == '0':
+                    break
+                if j - i > 1 and num[i+1] == '0':
+                    break
+                if dfs(int(num[:i+1]), int(num[i+1:j+1]), num[j+1:]):
+                    return True
+        return False
+
+
+        
