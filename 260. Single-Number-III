@@ -1,0 +1,20 @@
+class Solution:
+    def singleNumber(self, nums: List[int]) -> List[int]:
+        aXORb = 0
+        n = len(nums)
+        for i in range(n):
+            aXORb ^= nums[i]
+        
+        shiftCount = 0
+        while (aXORb >> shiftCount) & 1 != 1:
+            shiftCount += 1
+        
+        firstGroup = 0
+        secondGroup = 0
+        for num in nums:
+            if (num >> shiftCount) & 1 == 1:
+                firstGroup ^= num
+            else:
+                secondGroup ^= num
+        
+        return [firstGroup,secondGroup]
