@@ -1,0 +1,21 @@
+class Solution:
+    def getHint(self, secret: str, guess: str) -> str:
+        n = len(secret)
+        bulls = 0
+        for i in range(n):
+            if secret[i] == guess[i]:
+                bulls += 1
+        
+        dp = [0] * 10
+        for digit in secret:
+            index = ord(digit) - ord('0')
+            dp[index] += 1
+        cnt = 0
+        for digit in guess:
+            index = ord(digit) - ord('0')
+            dp[index] -= 1
+            if dp[index] >= 0:
+                cnt += 1
+        
+        cows = cnt - bulls
+        return f"{bulls}A{cows}B"
