@@ -1,0 +1,77 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} k
+ * @return {number}
+ */
+var kthSmallest = function(root, k) {
+    res = 0
+    function helper(root){
+        if(!root)
+            return;
+        helper(root.left)
+        k--;
+        if(k == 0){
+            res = root.val;
+            return;
+        }
+        helper(root.right)
+    }
+    helper(root)
+    
+    return res
+};
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        res = 0
+        def helper(root):
+            nonlocal k
+            nonlocal res
+            if not root:
+                return
+            helper(root.left)
+            k -= 1
+            if k == 0:
+                res = root.val
+                return
+            helper(root.right)
+
+        helper(root)
+        return res
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        stack = []
+
+        while root or stack:
+            if root:
+                stack.append(root)
+                root = root.left
+            else:
+                root = stack.pop()
+                k -= 1
+                if k == 0:
+                    return root.val
+                root = root.right
