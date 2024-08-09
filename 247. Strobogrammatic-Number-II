@@ -1,0 +1,92 @@
+What is Strobogrammatic Number?
+
+1. Solve the Strobogrammatic-Number first:
+class Solution:
+    """
+    @param num: a string
+    @return: true if a number is strobogrammatic or false
+    """
+    def is_strobogrammatic(self, num: str) -> bool:
+        # write your code here
+        flipped = [0,1,-1,-1,-1,-1,9,-1,8,6]
+        i = 0
+        j = len(num) - 1
+        while i <= j:
+            if flipped[int(num[i])] != int(num[j]):
+                return False
+            i += 1
+            j -= 1
+        return True
+
+
+2. Solve Strobogrammatic-Number-II
+
+export class Solution {
+  /**
+   * @param n: the length of strobogrammatic number
+   * @return: All strobogrammatic numbers
+   * we will sort your return value in output
+   */
+  findStrobogrammatic(n) {
+    // write your code here
+    let validPairs = [['6','9'],['9','6'],['8','8'],['1','1'],['0','0']]
+    
+    function backtrack(n) {
+      if (n == 0) {
+        return [""];
+      }
+      if (n == 1) {
+        return ["0","1","8"];
+      }
+      if (n == 2) {
+        return ["11","69","96","88","00"]
+      }
+      
+      let prevSeq = backtrack(n-2);
+      let currentRes = []
+      for (let seq of prevSeq) {
+        for (let [a,b] of validPairs) {
+          currentRes.push(a + seq + b);
+        }
+      }
+      return currentRes;
+    }
+    
+    let res = backtrack(n).filter(el => el.length === 1 || el[0] !== '0');
+    return res
+  }
+}
+
+
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param n: the length of strobogrammatic number
+    @return: All strobogrammatic numbers
+             we will sort your return value in output
+    """
+    def find_strobogrammatic(self, n: int) -> List[str]:
+        # write your code here
+        def dfs(depth):
+            if depth == 0:
+                return ['']
+            if depth == 1:
+                return ['0','1','8']
+            subResults = dfs(depth - 2)
+            res = []
+            for subResult in subResults:
+                for left, right in ('11','88','69','96'):
+                    res.append(left + subResult + right)
+                if depth != n:
+                    res.append('0' + subResult + '0')
+
+            return res
+    
+
+        
+
+        return dfs(n)
+
