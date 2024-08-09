@@ -1,0 +1,32 @@
+from typing import (
+    List,
+)
+from collections import defaultdict
+class Solution:
+    """
+    @param words: a list of words
+    @param word1: a string
+    @param word2: a string
+    @return: the shortest distance between word1 and word2 in the list
+    """
+    def shortest_word_distance(self, words: List[str], word1: str, word2: str) -> int:
+        # Write your code here
+        hash_map = defaultdict(list)
+        for index, word in enumerate(words):
+            hash_map[word].append(index)
+        distance = 1e9
+        if word1 == word2:
+            for i in range(1,len(hash_map[word1])):
+                distance = min(distance,hash_map[word1][i] - hash_map[word1][i-1])
+            return distance
+        
+        i = 0
+        j = 0
+        while i < len(hash_map[word1]) and j < len(hash_map[word2]):
+            distance = min(distance, abs(hash_map[word1][i] - hash_map[word2][j]))
+            if hash_map[word1][i] < hash_map[word2][j]:
+                i += 1
+            else:
+                j += 1
+        return distance
+
