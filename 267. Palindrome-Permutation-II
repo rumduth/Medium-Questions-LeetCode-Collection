@@ -1,0 +1,103 @@
+1. Palindrome-Permutation
+
+class Solution:
+    """
+    @param s: the given string
+    @return: if a permutation of the string could form a palindrome
+    """
+    def can_permute_palindrome(self, s: str) -> bool:
+        # write your code here
+        char = [0] * 26
+        for c in s:
+            i = ord(c) - ord('a')
+            char[i] += 1
+        
+        oddCnt = 0
+        for i in range(26):
+            if char[i] % 2 == 1:
+                oddCnt += 1
+        return oddCnt <= 1
+
+2. Palindrome Permutation II
+
+from typing import (
+    List,
+)
+from collections import Counter
+class Solution:
+    """
+    @param s: the given string
+    @return: all the palindromic permutations (without duplicates) of it
+             we will sort your return value in output
+    """
+    def generate_palindromes(self, s: str) -> List[str]:
+        # write your code here
+        res = []
+        sequence = []
+        charCnt = Counter(s)
+        oddCnt = sum(value % 2 for value in charCnt.values())
+        total = sum(int(value // 2) for value in charCnt.values())
+        if oddCnt > 1:
+            return res
+        center = "";
+        for key, val in charCnt.items():
+            if val % 2 == 1:
+                center = key
+                charCnt[key] -= 1
+        characters = [[key, val // 2] for key, val in charCnt.items() if val > 1 ]
+        sequence = []
+        res = []
+        
+        def backtrack():
+         
+            if len(sequence) == total:
+                per = ''.join(sequence[:] + [center] + sequence[::-1])
+                res.append(per)
+                return
+            for i in range(len(characters)):
+                if characters[i][1] > 0:
+                    sequence.append(characters[i][0])
+                    characters[i][1] -= 1
+                    backtrack()
+                    sequence.pop()
+                    characters[i][1] += 1
+
+        backtrack()
+        return res
+        
+
+from typing import (
+    List,
+)
+from collections import Counter
+class Solution:
+    """
+    @param s: the given string
+    @return: all the palindromic permutations (without duplicates) of it
+             we will sort your return value in output
+    """
+    def generate_palindromes(self, s: str) -> List[str]:
+        # write your code here
+        def dfs(palindrome_half):
+            if len(palindrome_half) == len(s):
+                res.append(palindrome_half)
+                return
+            for char, count in char_count.items():
+                if count > 1:
+                    char_count[char] -= 2
+                    dfs(char + palindrome_half + char)
+                    char_count[char] += 2
+
+
+        char_count = Counter(s)
+        middle_char = ''
+        for char, count in char_count.items():
+            if count % 2 == 1:
+                if middle_char:
+                    return []
+                middle_char = char
+                char_count[char] -= 1
+        res = []
+        dfs(middle_char)
+        return res
+            
