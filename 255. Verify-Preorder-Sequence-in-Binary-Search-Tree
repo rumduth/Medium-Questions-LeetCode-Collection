@@ -1,0 +1,57 @@
+from typing import List
+
+class Solution:
+    """
+    @param preorder: List[int]
+    @return: return a boolean
+    """
+    def verify_preorder(self, preorder: List[int]) -> bool:
+        greater = [-1] * len(preorder)
+        stack = [0]
+        for i in range(1,len(preorder)):
+            while stack and preorder[i] > preorder[stack[-1]]:
+                greater[stack[-1]] = i
+                stack.pop()
+            stack.append(i)
+
+        def helper(left, right, minVal, maxVal):
+            if left > right:
+                return True
+            if preorder[left] < minVal or preorder[left] > maxVal:
+                return False
+            
+            if greater[left] != -1:
+                return helper(left + 1, greater[left] - 1, minVal, preorder[left]) and helper(greater[left], right, preorder[left], maxVal)
+            return helper(left + 1, right, minVal, preorder[left])
+        
+        return helper(0, len(preorder) - 1, -1e9, 1e9)
+
+
+
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param preorder: List[int]
+    @return: return a boolean
+    """
+    def verify_preorder(self, preorder: List[int]) -> bool:
+        # write your code here
+        lowerBound = -1e9
+        i = -1
+        for num in preorder:
+            if num < lowerBound:
+                return False
+            
+            while i >= 0 and num > preorder[i]:
+                lowerBound = preorder[i]
+                i -= 1
+            
+            i += 1
+            preorder[i] = num
+        return True
+
+
+
