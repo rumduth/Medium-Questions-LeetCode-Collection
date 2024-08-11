@@ -1,0 +1,81 @@
+class ZigzagIterator:
+    """
+    @param: v1: A 1d vector
+    @param: v2: A 1d vector
+    """
+    def __init__(self, v1, v2):
+        # do intialization if necessary
+        self.grid = []
+        self.pos = -1
+        m = len(v1)
+        n = len(v2)
+        i, j = 0, 0
+        while i < m and j < n:
+            self.grid.append(v1[i])
+            self.grid.append(v2[j])
+            i += 1
+            j += 1
+        while i < m:
+            self.grid.append(v1[i])
+            i += 1
+        while j < n:
+            self.grid.append(v2[j])
+            j += 1
+    """
+    @return: An integer
+    """
+    def _next(self):
+        self.pos += 1
+        return self.grid[self.pos]
+        # write your code here
+
+
+    """
+    @return: True if has next
+    """
+    def hasNext(self):
+        # write your code here
+        return self.pos < len(self.grid) - 1
+
+
+# Your ZigzagIterator object will be instantiated and called as such:
+# solution, result = ZigzagIterator(v1, v2), []
+# while solution.hasNext(): result.append(solution.next())
+# Output result
+
+
+class ZigzagIterator:
+    """
+    @param: v1: A 1d vector
+    @param: v2: A 1d vector
+    """
+    def __init__(self, v1, v2):
+        # do intialization if necessary
+        self.vectors = [v1,v2]
+        self.current = 0
+        self.pointers = [0,0]
+
+    """
+    @return: An integer
+    """
+    def _next(self):
+        # write your code here
+        while self.pointers[self.current] == len(self.vectors[self.current]):
+            self.current = (self.current + 1) % 2
+        val = self.vectors[self.current][self.pointers[self.current]]
+        self.pointers[self.current] += 1
+        self.current = (self.current + 1) % 2
+        return val
+
+    """
+    @return: True if has next
+    """
+    def hasNext(self):
+        # write your code here
+        return self.pointers[0] < len(self.vectors[0]) or self.pointers[1] < len(self.vectors[1])
+
+
+# Your ZigzagIterator object will be instantiated and called as such:
+# solution, result = ZigzagIterator(v1, v2), []
+# while solution.hasNext(): result.append(solution.next())
+# Output result
