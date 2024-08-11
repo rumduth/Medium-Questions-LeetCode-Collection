@@ -1,0 +1,40 @@
+class BinaryIndexTree:
+    def __init__(self, nums):
+        self.bits = [0] * (len(nums) + 1)
+        for i in range(len(nums)):
+            self.update(i,nums[i])
+    def update(self, i, val):
+        i += 1
+        while i < len(self.bits):
+            self.bits[i] += val
+            i += (i & -i)
+    def query(self,i):
+        i += 1
+        total = 0
+        while i > 0:
+            total += self.bits[i]
+            i -= (i & -i)
+        return total
+
+
+class NumArray:
+
+    def __init__(self, nums: List[int]):
+        self.nums = nums
+        self.BIT = BinaryIndexTree(nums)
+        
+
+    def update(self, index: int, val: int) -> None:
+        diff = val - self.nums[index]
+        self.BIT.update(index,diff)
+        self.nums[index] = val
+
+    def sumRange(self, left: int, right: int) -> int:
+        return self.BIT.query(right) - self.BIT.query(left-1)
+        
+
+
+# Your NumArray object will be instantiated and called as such:
+# obj = NumArray(nums)
+# obj.update(index,val)
+# param_2 = obj.sumRange(left,right)
