@@ -1,0 +1,25 @@
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param nums: an array
+    @param k: a target value
+    @return: the maximum length of a subarray that sums to k
+    """
+    def max_sub_array_len(self, nums: List[int], k: int) -> int:
+        # Write your code here
+        cache = {}
+        cache[0] = -1
+        preSum = 0
+        res = 0
+        for i in range(len(nums)):
+            preSum += nums[i]
+            key = preSum - k
+            if key in cache:
+                res = max(res,i - cache[key])
+            if not preSum in cache:
+                cache[preSum] = i
+        return res
+
