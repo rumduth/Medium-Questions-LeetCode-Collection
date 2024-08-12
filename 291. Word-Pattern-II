@@ -1,0 +1,34 @@
+class Solution:
+    """
+    @param pattern: a string,denote pattern string
+    @param str: a string, denote matching string
+    @return: a boolean
+    """
+    def word_pattern_match(self, pattern: str, str: str) -> bool:
+        # write your code here
+        cache = {}
+        used = set()
+        def helper(i, j):
+            if i == len(pattern) and j == len(str):
+                return True
+            if i == len(pattern) or j == len(str):
+                return False
+            if len(pattern) - i > len(str) - j:
+                return False
+            for k in range(j, len(str)):
+                val = str[j:k+1]
+                if pattern[i] not in cache:
+                    if val in used:
+                        continue
+                    cache[pattern[i]] = val
+                    used.add(val)
+                    if helper(i+1,k+1):
+                        return True
+                    del cache[pattern[i]]
+                    used.remove(val)
+                elif cache[pattern[i]] == val:
+                    if helper(i+1, k+1):
+                        return True
+            return False
+                        
+        return helper(0,0)
