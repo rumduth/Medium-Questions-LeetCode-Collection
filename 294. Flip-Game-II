@@ -1,0 +1,13 @@
+class Solution:
+    """
+    @param s: the given string
+    @return: if the starting player can guarantee a win
+    """
+    def can_win(self, s: str) -> bool:
+        # write your code here
+        for i in range(0,len(s) - 1):
+            if s[i] == '+' and s[i+1] == '+':
+                newState = s[:i] + '--' + s[i+2:]
+                if not self.can_win(newState):
+                    return True
+        return False
