@@ -1,0 +1,21 @@
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param a: a sparse matrix
+    @param b: a sparse matrix
+    @return: the result of A * B
+    """
+    def multiply(self, a: List[List[int]], b: List[List[int]]) -> List[List[int]]:
+        # write your code here
+        numRows1, numCols1 = len(a), len(a[0])
+        numRows2, numCols2 = len(b), len(b[0])
+        res = [[0] * numCols2 for _ in range(numRows1)]
+        for i in range(numRows1):
+            for j in range(numCols2):
+                row = a[i]
+                for k in range(len(row)):
+                    res[i][j] += row[k] * b[k][j]
+        return res
