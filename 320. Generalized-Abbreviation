@@ -1,0 +1,30 @@
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param word: the given word
+    @return: the generalized abbreviations of a word
+             we will sort your return value in output
+    """
+    def generate_abbreviations(self, word: str) -> List[str]:
+        # Write your code here
+        res = []
+        def backtrack(i,currentWord, cnt):
+            if i == len(word):
+                number = str(cnt) if cnt > 0 else ""
+                res.append(currentWord + number)
+                return
+            #case 1
+            middle = str(cnt) if cnt > 0 else ""
+            newWord = currentWord + middle + word[i]
+            backtrack(i+1,newWord,0)
+            #case 2
+            newWord = currentWord[:]
+            backtrack(i+1,newWord,cnt+1)           
+        
+        backtrack(0,"",0)
+        return res
+
+        
