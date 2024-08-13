@@ -1,0 +1,45 @@
+from lintcode import (
+    TreeNode,
+)
+
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param root: the root
+    @return: the largest subtree's size which is a Binary Search Tree
+    """
+    def largest_b_s_t_subtree(self, root: TreeNode) -> int:
+        # Write your code here
+        res = [0]
+        def helper(root):
+            if root is None:
+                return 0, 0, 0, True, True
+            
+            leftMin, leftMax, leftNodes, isLeftBST, isLeftNone = helper(root.left)
+            rightMin, rightMax, rightNodes, isRightBST, isRightNone = helper(root.right)
+
+            if isLeftBST and isRightBST:
+                if isLeftNone and isRightNone:
+                    res[0] = max(res[0],1)
+                    return root.val, root.val, 1, True, False
+                elif isLeftNone and root.val < rightMin:
+                    res[0] = max(res[0],1 + rightNodes)
+                    return root.val, rightMax, 1 + rightNodes, True, False
+                elif isRightNone and root.val > leftMax:
+                    res[0] = max(res[0],1 + leftNodes)
+                    return leftMin, root.val, 1 + leftNodes, True, False
+                elif root.val > leftMax and root.val < rightMin:
+                    res[0] = max(res[0],1 + leftNodes +rightNodes )
+                    return leftMin, rightMax, 1 + rightNodes + leftNodes, True, False
+            return 0,0,0, False,False
+        
+        helper(root)
+        return res[0]
+            
