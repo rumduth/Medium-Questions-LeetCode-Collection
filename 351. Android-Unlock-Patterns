@@ -1,0 +1,105 @@
+class Solution:
+    """
+    @param m: an integer
+    @param n: an integer
+    @return: the total number of unlock patterns of the Android lock screen
+    """
+    def number_of_patterns(self, m: int, n: int) -> int:
+        # Write your code here
+        res = [0]
+        visited = [False] * 10
+        invalid_moves = [(1,3),(1,7),(1,9),(2,8),(3,1),(3,7),(3,9),(4,6),(6,4),(7,1),(7,3),(7,9),(8,2),(9,1),(9,3),(9,7)]
+        def dfs(prev,l):
+            if l >= m and l <= n:
+                res[0] += 1
+            if l > n:
+                return
+            for i in range(1,10):
+                if visited[i]:
+                    continue
+                if (prev,i) in invalid_moves:
+                    middle = (prev + i) // 2
+                    if not visited[middle]:
+                        continue
+                visited[i] = True
+                dfs(i,l+1)
+                visited[i] = False
+                            
+        for i in range(1,10):
+            visited[i] = True
+            dfs(i,1)
+            visited[i] = False
+        return res[0]
+
+
+
+class Solution:
+    """
+    @param m: an integer
+    @param n: an integer
+    @return: the total number of unlock patterns of the Android lock screen
+    """
+    def number_of_patterns(self, m: int, n: int) -> int:
+        # Write your code here
+        visited = [False] * 10
+        invalid_moves = [(1,3),(1,7),(1,9),(2,8),(3,1),(3,7),(3,9),(4,6),(6,4),(7,1),(7,3),(7,9),(8,2),(9,1),(9,3),(9,7)]
+        def dfs(prev,l):
+            res = 0
+            if l >= m and l <= n:
+                res += 1
+            if l >= n:
+                return res
+            for i in range(1,10):
+                if visited[i]:
+                    continue
+                if (prev,i) in invalid_moves:
+                    middle = (prev + i) // 2
+                    if not visited[middle]:
+                        continue
+                visited[i] = True
+                res += dfs(i,l+1)
+                visited[i] = False
+            return res
+
+        res = 0                    
+        for i in [1,2,5]:
+            visited[i] = True
+            if i == 5:
+                res += dfs(i,1)
+            else:
+                res += 4 * dfs(i,1)
+            visited[i] = False
+        return res
+
+
+class Solution:
+    """
+    @param m: an integer
+    @param n: an integer
+    @return: the total number of unlock patterns of the Android lock screen
+    """
+    def number_of_patterns(self, m: int, n: int) -> int:
+        # Write your code here
+        visited = [False] * 10
+        cross = [[0] * 10 for _ in range(10)]
+        cross[1][3] = cross[3][1] = 2
+        cross[1][9] = cross[9][1] = cross[3][7] = cross[7][3] = cross[2][8] = cross[8][2] = 5
+        cross[4][6] = cross[6][4] = 5
+        cross[7][9] = cross[9][7] = 8
+        cross[3][9] = cross[9][3] = 6
+        cross[1][7] = cross[7][1] = 4
+        visited = [False] * 10
+        def dfs(current,l):
+            if l > n:
+                return 0
+            visited[current] = True
+            paths = int(l >= m)
+            for next_num in range(1,10):
+                cross_num = cross[current][next_num]
+                if not visited[next_num] and (cross_num == 0 or visited[cross_num]):
+                    paths += dfs(next_num,l+1)
+            visited[current] = False
+            return paths
+
+              
+        return dfs(1,1) * 4 + dfs(2,1) * 4 + dfs(5,1);
