@@ -1,0 +1,68 @@
+// Custom exceptions
+class AlreadyTakenException extends Exception {
+    public AlreadyTakenException(String message) {
+        super(message);
+    }
+}
+
+class GameEndException extends Exception {
+    public GameEndException(String message) {
+        super(message);
+    }
+}
+
+class TicTacToe {
+    private int n;
+    private int[][] board;
+    private int[] rows;
+    private int[] cols;
+    private int diagonal;
+    private int antiDiagonal;
+    private boolean winner;
+    private boolean turn;
+
+    /** Initialize your data structure here. */
+    public TicTacToe() {
+        this.n = 3;
+        this.board = new int[n][n];
+        this.rows = new int[n];
+        this.cols = new int[n];
+        this.diagonal = 0;
+        this.antiDiagonal = 0;
+        this.winner = false;
+        this.turn = true;
+    }
+
+    public boolean move(int row, int col) throws AlreadyTakenException, GameEndException {
+        if (winner) {
+            throw new GameEndException("Game has already ended.");
+        }
+        if (board[row][col] != 0) {
+            throw new AlreadyTakenException("This position is already taken.");
+        }
+        int currentPlayer = turn ? 1 : -1;
+        board[row][col] = currentPlayer;
+        rows[row] += currentPlayer;
+        cols[col] += currentPlayer;
+        if (row == col) {
+            diagonal += currentPlayer;
+        }
+        if (row + col == n - 1) {
+            antiDiagonal += currentPlayer;
+        }
+        if (Math.abs(rows[row]) == n || Math.abs(cols[col]) == n ||
+            Math.abs(diagonal) == n || Math.abs(antiDiagonal) == n) {
+            winner = true;
+        }
+        turn = !turn;
+        return winner;
+    }
+
+    public boolean isGameOver() {
+        return winner;
+    }
+
+    public boolean getCurrentTurn() {
+        return turn;
+    }
+}
