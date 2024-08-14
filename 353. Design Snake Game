@@ -1,0 +1,45 @@
+from collections import deque
+from typing import List
+class SnakeGame:
+
+    def __init__(self, width: int, height: int, foods: List[List[int]]) -> int:
+        self.row = height
+        self.col = width
+        self.snake = deque([[0,0]])
+        self.score = 0
+        self.foods = foods
+
+
+    """
+    @param direction: the direction of the move
+    @return: the score after the move
+    """
+    def move(self, direction: str) -> int:
+        # write your code here
+        head = self.snake[0]
+        new_head = head.copy()
+        if direction == 'r':
+            new_head[1] += 1
+        if direction == 'l':
+            new_head[1] -= 1
+        if direction == 'u':
+            new_head[0] -= 1
+        if direction == 'd':
+            new_head[0] += 1
+
+        if new_head[0] < 0 or new_head[0] >= self.row or new_head[1] < 0 or new_head[1] >= self.col:
+            return -1
+        if new_head not in self.foods:
+            self.snake.pop()
+            if new_head in self.snake:
+                return -1
+            self.snake.appendleft(new_head)
+        else:
+            if new_head in self.snake:
+                return -1
+            self.foods.pop(self.foods.index(new_head))
+            self.snake.appendleft(new_head)
+            self.score += 1
+        return self.score
+            
+
