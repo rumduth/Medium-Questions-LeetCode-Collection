@@ -1,0 +1,43 @@
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param nums: a sorted array
+    @param a: 
+    @param b: 
+    @param c: 
+    @return: a sorted array
+    """
+    def sort_transformed_array(self, nums: List[int], a: int, b: int, c: int) -> List[int]:
+        # Write your code here
+        def transform(x):
+            return a * pow(x,2) + b * x + c;
+
+        i = 0
+        j = len(nums) - 1
+        res = []
+        if a > 0:
+            while i <= j:
+                x = transform(nums[i])
+                y = transform(nums[j])
+                if x <= y:
+                    res.append(y)
+                    j -= 1
+                else:
+                    res.append(x)
+                    i += 1
+            res.reverse()
+        else:
+            while i <= j:
+                x = transform(nums[i])
+                y = transform(nums[j])
+                if x <= y:
+                    res.append(x)
+                    i += 1
+                else:
+                    res.append(y)
+                    j -= 1
+        
+        return res
