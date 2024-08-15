@@ -1,0 +1,24 @@
+from collections import deque
+
+class HitCounter:
+
+    def __init__(self):
+        self.hits = deque([])
+
+
+    """
+    @param timestamp: the timestamp
+    @return: nothing
+    """
+    def hit(self, timestamp: int):
+        self.hits.append(timestamp)
+
+    """
+    @param timestamp: the timestamp
+    @return: the count of hits in recent 300 seconds
+    """
+    def get_hits(self, timestamp: int) -> int:
+        lower_bound = timestamp - 300
+        while self.hits and self.hits[0] <= lower_bound:
+            self.hits.popleft()
+        return len(self.hits)
