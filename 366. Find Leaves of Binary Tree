@@ -1,0 +1,30 @@
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+from collections import defaultdict
+
+class Solution:
+    """
+    @param: root: the root of binary tree
+    @return: collect and remove all leaves
+    """
+    def findLeaves(self, root):
+        # write your code here
+        cache = defaultdict(list)
+        def dfs(root):
+            if root is None:
+                return -1
+            
+            index1 = dfs(root.left)
+            index2 = dfs(root.right)
+            index = max(index1,index2) + 1
+            cache[index].append(root.val)
+            return index
+
+        dfs(root)
+        return [leafs for _, leafs in cache.items()] 
+            
