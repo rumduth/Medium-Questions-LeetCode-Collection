@@ -1,0 +1,84 @@
+from lintcode import (
+    ListNode,
+)
+
+"""
+Definition of ListNode:
+class ListNode(object):
+    def __init__(self, val, next=None):
+        self.val = val
+        self.next = next
+"""
+
+class Solution:
+    """
+    @param head: the first Node
+    @return: the answer after plus one
+    """
+    def plus_one(self, head: ListNode) -> ListNode:
+        # Write your code here
+        def reverse(head):
+            if head is None or head.next is None:
+                return head
+            current = head
+            tail = None
+            while current:
+                nextNode = current.next
+                current.next = tail
+                tail = current
+                current = nextNode
+                
+                
+            return tail
+        
+        def plusOne(head):
+            carry = 1
+            current = head
+            last = head;
+            while head:
+                newVal = (head.val + carry) % 10
+                carry = (head.val + carry) // 10
+                head.val = newVal
+                last = head
+                head = head.next
+            if carry == 1:
+                last.next = ListNode(1)
+            return current
+        
+        head = reverse(head)
+        head = plusOne(head)
+        return reverse(head)
+
+
+from lintcode import (
+    ListNode,
+)
+
+"""
+Definition of ListNode:
+class ListNode(object):
+    def __init__(self, val, next=None):
+        self.val = val
+        self.next = next
+"""
+
+class Solution:
+    """
+    @param head: the first Node
+    @return: the answer after plus one
+    """
+    def plus_one(self, head: ListNode) -> ListNode:
+        # Write your code here
+        dummy = ListNode(0)
+        dummy.next = head
+        none_nine_node = dummy
+        while head:
+            if head.val != 9:
+                none_nine_node = head
+            head = head.next
+        none_nine_node.val += 1
+        current = none_nine_node.next
+        while current:
+            current.val = 0
+            current = current.next
+        return dummy if dummy.val == 1 else dummy.next
