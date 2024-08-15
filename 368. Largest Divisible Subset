@@ -1,0 +1,56 @@
+class Solution:
+    def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
+        cache = defaultdict(list)
+        nums.sort()
+        n = len(nums)
+        if n <= 1:
+            return nums
+        for i in range(n):
+            cache[i].append(nums[i])
+        maxLength = 1
+        index = 0
+        for i in range(1,n):
+            for j in range(i):
+                if nums[i] % nums[j] == 0:
+                    if len(cache[i]) < 1 + len(cache[j]):
+                        cache[i] = cache[j] + [nums[i]]
+                        if maxLength < len(cache[i]):
+                            maxLength = len(cache[i])
+                            index = i
+                        
+        
+        return cache[index]
+
+
+class Solution {
+public:
+    vector<int> largestDivisibleSubset(vector<int>& nums) {
+        int n = nums.size();
+        sort(nums.begin(),nums.end());
+        if(n <= 1) return nums;
+        vector<int> dp(n, 1);
+        int maxLength = 1;
+        int endIndex = 0;
+        for(int i = 1; i < n; i++){
+            for(int j = 0; j < i; j++){
+                if(nums[i] % nums[j] == 0){
+                    dp[i] = max(dp[i], 1 + dp[j]);
+                    if(maxLength < dp[i]){
+                        maxLength = dp[i];
+                        endIndex = i;
+                    }
+                }
+            }
+        }
+        vector<int> res;
+        int currentNumber = nums[endIndex];
+        for(int e = endIndex; e >= 0; e--){
+            if(currentNumber % nums[e] == 0 && maxLength == dp[e]){
+                res.push_back(nums[e]);
+                currentNumber = nums[e];
+                maxLength--;
+            }
+        }
+        return res;
+    }
+};
