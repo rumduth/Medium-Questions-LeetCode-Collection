@@ -1,0 +1,23 @@
+class Solution:
+    """
+    @param nestedList: a list of NestedInteger
+    @return: the sum
+    """
+    def maxDepth(self, nestedList):
+        currentDepth = 0
+        for l in nestedList:
+            if l.isInteger():
+                continue
+            currentDepth = max(currentDepth,self.maxDepth(l.getList()))
+        return 1 + currentDepth;
+
+    def depthSumInverse(self, nestedList):
+        def dfs(nestedList, depth):
+            sum = 0
+            for l in nestedList:
+                if l.isInteger():
+                    sum += l.getInteger() * depth
+                else:
+                    sum += dfs(l.getList(), depth - 1)
+            return sum
+        return dfs(nestedList,self.maxDepth(nestedList))
