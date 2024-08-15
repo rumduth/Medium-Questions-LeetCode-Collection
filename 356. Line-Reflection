@@ -1,0 +1,28 @@
+from typing import (
+    List,
+)
+from collections import defaultdict
+
+class Solution:
+    """
+    @param points: n points on a 2D plane
+    @return: if there is such a line parallel to y-axis that reflect the given points
+    """
+    def is_reflected(self, points: List[List[int]]) -> bool:
+        # Write your code here
+        smallest_x, largest_x = float('inf'), float('-inf')
+        point_set = set()
+        for x, y in points:
+            smallest_x = min(smallest_x, x)
+            largest_x = max(largest_x, x)
+            point_set.add((x,y))
+        reflection_sum = smallest_x + largest_x
+        for x, y in points:
+            if (reflection_sum - x, y) not in point_set:
+                return False;
+        
+        return True
+
+            
+        
+        
