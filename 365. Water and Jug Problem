@@ -1,0 +1,76 @@
+class Solution:
+    def canMeasureWater(self, x: int, y: int, target: int) -> bool:
+        if target > x + y:
+            return False
+        return target % math.gcd(x,y) == 0
+
+
+
+
+class Solution:
+    def canMeasureWater(self, x: int, y: int, target: int) -> bool:
+        if x + y < target:
+            return False
+        if target == 0:
+            return True
+        queue = deque([(0,0)])
+        visited = set([(0,0)])
+
+        while  queue:
+            a, b = queue.popleft()
+            if a + b == target:
+                return True
+            
+            # states = [
+            #     (x,b), (a,y),
+            #     (0,b), (a,0),
+            #     # (min(x, a + b), a + b - x if (a + b) >= x else 0),  # Added comma here
+            #     # (a + b - y if a + b >= y else 0, min(a + b, y))
+            #     (min(x,a + b), a + b - x if a + b >= x else 0),
+            #     (a + b - y if a + b >= y else 0, min(a+b,y))
+            # ]
+
+            # for state in states:
+            #     if state not in visited:
+            #         visited.add(state)
+            #         queue.append(state)
+            #case 1: 
+            if (x, b) not in visited:
+                visited.add((x,b))
+                queue.append((x,b))
+            if (a, y) not in visited:
+                visited.add((a,y))
+                queue.append((a,y))
+            
+            #case 2:
+            if (0, b) not in visited:
+                visited.add((0,b))
+                queue.append((0,b))
+            if (a,0) not in visited:
+                visited.add((a,0))
+                queue.append((a,0))
+            
+            #case 3:
+            #pour a to b
+            if a + b > y:
+                if (a + b - y, y) not in visited:
+                    visited.add((a + b - y, y))
+                    queue.append((a + b - y, y))
+            else:
+                if (0, a + b) not in visited:
+                    visited.add((0, a + b))
+                    queue.append((0,a+b))
+            
+            #pour b to a
+            if a + b > x:
+                if (x, a + b - x) not in visited:
+                    visited.add((x,a+b-x))
+                    queue.append((x,a+b-x))
+            else:
+                if (a + b, 0) not in visited:
+                    visited.add((a+b, 0))
+                    queue.append((a+b,0))
+        
+        return False
+
+        
