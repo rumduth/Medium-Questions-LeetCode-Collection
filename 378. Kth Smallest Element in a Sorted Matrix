@@ -1,0 +1,37 @@
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        min_heap = [(matrix[0][0],0,0)]
+        m = len(matrix)
+        n = len(matrix[0])
+        while k > 0:
+            val, i, j = heapq.heappop(min_heap)
+            k -= 1
+            if k == 0:
+                return val
+            if i == 0 and j + 1 < n:
+                heapq.heappush(min_heap,(matrix[i][j+1],i,j+1))
+            if i + 1 < m:
+                heapq.heappush(min_heap,(matrix[i+1][j],i+1,j))
+
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        n = len(matrix)
+        
+        def count_less_equal(mid):
+            count = 0
+            j = n - 1
+            for i in range(n):
+                while j >= 0 and matrix[i][j] > mid:
+                    j -= 1
+                count += (j + 1)
+            return count
+        
+        left, right = matrix[0][0], matrix[n-1][n-1]
+        while left < right:
+            mid = left + (right - left) // 2
+            if count_less_equal(mid) < k:
+                left = mid + 1
+            else:
+                right = mid
+        
+        return left
