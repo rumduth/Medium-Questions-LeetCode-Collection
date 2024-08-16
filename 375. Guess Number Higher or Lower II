@@ -1,0 +1,20 @@
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var getMoneyAmount = function(n) {
+    let dp = Array.from({length: n + 1}, () => new Array(n+1).fill(0))
+    for(let i = n; i >= 0; i--){
+        for(let j = i + 1; j <= n; j++){
+            if(j == i + 1)
+                dp[i][j] = i;
+            else{
+                dp[i][j] = Infinity
+                for(let m = i + 1; m + 1 <= j; m++){
+                    dp[i][j] = Math.min(dp[i][j], m + Math.max(dp[i][m-1],dp[m+1][j]))
+                }
+            }
+        }
+    }
+    return dp[1][n]
+};
