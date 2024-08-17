@@ -1,0 +1,57 @@
+
+var RandomizedSet = function() {
+    this.arr = [];
+    this.index = {}
+};
+
+/** 
+ * @param {number} val
+ * @return {boolean}
+ */
+RandomizedSet.prototype.insert = function(val) {
+    if(val in this.index)
+        return false;
+    this.arr.push(val);
+    this.index[val] = this.arr.length - 1;
+    return true;
+};
+
+/** 
+ * @param {number} val
+ * @return {boolean}
+ */
+RandomizedSet.prototype.remove = function(val) {
+    if(!(val in this.index))
+        return false;
+    let size = this.arr.length;
+    let valIndex = this.index[val]
+    let lastIndex = size - 1
+    let lastVal = this.arr[lastIndex]
+
+    this.arr[valIndex] = lastVal;
+    this.arr.pop();
+
+    this.index[lastVal] = valIndex;
+
+    delete this.index[val]
+    
+
+    return true
+};
+
+/**
+ * @return {number}
+ */
+RandomizedSet.prototype.getRandom = function() {
+    size = this.arr.length
+    randomIndex = Math.floor(Math.random() * size)
+    return this.arr[randomIndex]
+};
+
+/** 
+ * Your RandomizedSet object will be instantiated and called as such:
+ * var obj = new RandomizedSet()
+ * var param_1 = obj.insert(val)
+ * var param_2 = obj.remove(val)
+ * var param_3 = obj.getRandom()
+ */
