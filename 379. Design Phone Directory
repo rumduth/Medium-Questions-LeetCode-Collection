@@ -1,0 +1,35 @@
+import heapq
+
+class PhoneDirectory:
+    def __init__(self, maxNumbers: int):
+        self.phones = set(list(range(maxNumbers)))
+        self.min_heap = []
+        for i in range(maxNumbers):
+            heapq.heappush(self.min_heap,i)
+
+    """
+    @return: the available number of the phone directory 
+    """
+    def get(self) -> int:
+        if len(self.min_heap) == 0:
+            return -1
+        val = heapq.heappop(self.min_heap)
+        self.phones.remove(val)
+        return val
+
+    """
+    @param number: the number to be checked
+    @return: check whether the number of the phone directory is available
+    """
+    def check(self, number: int) -> bool:
+        return number in self.phones
+
+    """
+    @param number: the number of the phone directory to be released
+    @return: nothing
+    """
+    def release(self, number: int):
+        if number in self.phones:
+            return
+        heapq.heappush(self.min_heap,number)
+        self.phones.add(number)
