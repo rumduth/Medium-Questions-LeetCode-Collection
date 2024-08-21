@@ -1,0 +1,13 @@
+class Solution:
+    def lastRemaining(self, n: int) -> int:
+        left_to_right = True
+        head = 1
+        remaining = n
+        step = 1
+        while remaining > 1:
+            if remaining % 2 == 1 or left_to_right:
+                head += step
+            step *= 2
+            remaining //= 2
+            left_to_right = not left_to_right
+        return head
