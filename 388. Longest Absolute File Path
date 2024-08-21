@@ -1,0 +1,26 @@
+class Solution:
+    def lengthLongestPath(self, input: str) -> int:
+        folders = input.split('\n')
+        paths = []
+        for folder in folders:
+            depth = 0
+            isFile = False
+            while depth < len(folder) and folder[depth] == '\t':
+                depth += 1
+            if '.' in folder:
+                isFile = True
+            paths.append((len(folder)-depth,depth,isFile))
+        stack = []
+        res = 0
+        currentLength = 0
+        for l, depth, isFile in paths:
+            while stack and stack[-1][1] >= depth:
+                currentLength -= stack[-1][0]
+                stack.pop()
+            currentLength += l
+            if isFile:
+                res = max(res, currentLength + depth)
+            stack.append((l,depth))
+        
+        
+        return res
