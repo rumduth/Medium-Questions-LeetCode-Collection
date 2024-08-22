@@ -1,0 +1,39 @@
+class Solution:
+    def longestSubstring(self, s: str, k: int) -> int:
+        char_count = Counter(s)
+        left = 0
+        n = len(s)
+        res = 0
+
+        def helper(start, end):
+            print(s[start:end+1])
+            alphabet = Counter(s[start:end+1])
+            maxLength = 0
+            filled = 0
+            filled_alphabet = Counter()
+            left = start
+            for right in range(start,end+1):
+                c = s[right]
+                if alphabet[c] < k:
+                    filled_alphabet = Counter()
+                    filled = 0
+                    left = right + 1
+                    continue
+
+                filled_alphabet[c] += 1
+                if filled_alphabet[c] == k:
+                    filled += 1
+            
+                if filled == len(filled_alphabet):
+                    maxLength = max(right - left + 1, maxLength)
+            
+            return maxLength
+                
+
+        for right, c in enumerate(s):
+            if char_count[c] < k:
+                res = max(res, helper(left, right - 1))
+                left = right + 1
+        
+        res = max(res,helper(left,n-1))
+        return res
