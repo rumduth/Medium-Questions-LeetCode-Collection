@@ -1,0 +1,46 @@
+class Solution:
+    def integerReplacement(self, n: int) -> int:
+        if n == 1:
+            return 0
+        if n % 2 == 0:
+            return 1 + self.integerReplacement(n // 2)
+        
+        return 1 + min(self.integerReplacement(n+1),self.integerReplacement(n-1))
+
+
+
+class Solution:
+    def integerReplacement(self, n: int) -> int:
+
+        cache = {}
+        def helper(n):
+            if n == 1:
+                return 0
+            if n in cache:
+                return cache[n]
+            minOperations = 0
+            if n % 2 == 0:
+                minOperations = 1 + helper(n // 2)
+            else:
+                minOperations = 1 + min(helper(n + 1), helper(n-1))
+            cache[n] = minOperations
+            return minOperations
+    
+        
+        return helper(n)
+
+
+
+
+class Solution:
+    def integerReplacement(self, n: int) -> int:
+        operations = 0
+        while n > 1:
+            if n & 1 == 0:
+                n = n >> 1
+            elif n & 3 == 1 or n == 3:
+                n = n - 1
+            else:
+                n = n + 1
+            operations += 1
+        return operations
