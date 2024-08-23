@@ -1,0 +1,25 @@
+class Solution:
+    def findNthDigit(self, n: int) -> int:
+        group = 1
+        count_digits = 0
+        while count_digits + 9 * group * ( 10 ** (group - 1) ) < n:
+            count_digits += 9 * group * ( 10 ** (group - 1) )
+            group += 1
+
+        n -= count_digits
+
+        left = start = 10 ** (group - 1)
+        right = 10 ** group - 1
+
+        while left < right:
+            middle = (left + right) >> 1
+            if (middle - start + 1) * group < n:
+                left = middle + 1
+            else:
+                right = middle
+
+        index = n - (left - start) * group
+        res = str(left)[index - 1]
+        return int(res)
+
+
