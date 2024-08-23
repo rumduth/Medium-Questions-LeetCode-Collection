@@ -1,0 +1,20 @@
+class Solution:
+    def removeKdigits(self, num: str, k: int) -> str:
+        stack = deque([])
+        for c in num:
+            while stack and c < stack[-1] and k > 0:
+                stack.pop()
+                k -= 1
+            stack.append(c)
+        
+        while stack and k > 0:
+            stack.pop()
+            k -= 1
+        while stack and stack[0] == '0':
+            stack.popleft()
+        
+        if not stack:
+            return "0"
+        return "".join(stack)
+        
+        
