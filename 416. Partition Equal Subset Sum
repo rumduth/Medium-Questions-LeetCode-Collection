@@ -1,0 +1,30 @@
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        total_sum = sum(nums)
+        if total_sum & 1:
+            return False
+        target = total_sum // 2
+        possible_sums = set([0])
+        for num in nums:
+            new_sum = set()
+            for current_sum in possible_sums:
+                if current_sum + num == target:
+                    return True
+                if current_sum + num < target:
+                    new_sum.add(current_sum + num)
+            possible_sums.update(new_sum)  
+        return False  
+
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        total_sum = sum(nums)
+        if total_sum & 1:
+            return False
+        target = total_sum // 2
+        dp = [False] * (target+1)
+        dp[0] = True
+        for num in nums:
+            for i in range(target, num - 1, -1):
+                dp[i] |= dp[i-num]
+        return dp[target]
+
