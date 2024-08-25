@@ -1,0 +1,41 @@
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        m = len(heights)
+        n = len(heights[0])
+        directions = [0,1,0,-1,0]
+        is_pacific = [[False] * n for _ in range(m)]
+        is_atlantic = [[False] * n for _ in range(m)]
+
+        def check_pacific(r, c, prevHeight):
+            if r < 0 or r >= m or c < 0 or c >= n or heights[r][c] < prevHeight or is_pacific[r][c]:
+                return
+            is_pacific[r][c] = True
+            for i in range(4):
+                next_r = r + directions[i]
+                next_c = c + directions[i+1]
+                check_pacific(next_r,next_c,heights[r][c])
+        
+        def check_atlantic(r, c, prevHeight):
+            if r < 0 or r >= m or c < 0 or c >= n or heights[r][c] < prevHeight or  is_atlantic[r][c]:
+                return
+            is_atlantic[r][c] = True
+            for i in range(4):
+                next_r = r + directions[i]
+                next_c = c + directions[i+1]
+                check_atlantic(next_r,next_c,heights[r][c])
+        
+        for row in range(m):
+            check_pacific(row,0,0)
+            check_atlantic(row,n-1,0)
+        for col in range(n):
+            check_pacific(0, col,0)
+            check_atlantic(m-1,col,0)
+       
+        
+        res = []
+        for i in range(m):
+            for j in range(n):
+                if is_pacific[i][j] and is_atlantic[i][j]:
+                    res.append([i,j])
+        
+        return res
