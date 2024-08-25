@@ -1,0 +1,33 @@
+class Solution:
+    def originalDigits(self, s: str) -> str:
+        '''
+        zero:found
+        one: 
+        two: found
+        three: found
+        four: found
+        five: found
+        six: found
+        seven: found
+        eight: found
+        nine: found
+        '''
+        cache = {x: 0 for x in range(10)}
+        alphabet = Counter(s)
+    
+        cache[0] = alphabet['z']
+        cache[2] = alphabet['w']
+        cache[6] = alphabet['x']
+        cache[7] = alphabet['s'] - cache[6]
+        cache[8] =  alphabet['g'] 
+        cache[3] = alphabet['h'] - alphabet['g']
+        cache[5] = alphabet['v'] - cache[7]
+        cache[4] = alphabet['f'] - cache[5]
+        cache[9] = alphabet['i'] - cache[5] - cache[6] - cache[8]
+        cache[1] = alphabet['o'] - cache[0] - cache[2] - cache[4]
+
+        res = ""
+        for i in range(10):
+            if cache[i] > 0:
+                res += str(i) * cache[i]
+        return res 
