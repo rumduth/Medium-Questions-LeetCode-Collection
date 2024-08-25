@@ -1,0 +1,37 @@
+class Node:
+    def __init__(self):
+        self.next = [None,None]
+        self.number = None
+
+class Trie:
+    def __init__(self):
+        self.root = Node()
+    
+    def insert(self, number):
+        r = self.root
+        for i in range(31,-1,-1):
+            bit = (number >> i) & 1
+            if not r.next[bit]:
+                r.next[bit] = Node()
+            r = r.next[bit]
+        r.number = number
+    
+    def find_max_xor(self, number):
+        r = self.root
+        for i in range(31,-1,-1):
+            bit = (number >> i) & 1
+            if r.next[1-bit]:
+                r = r.next[1-bit]
+            else:
+                r = r.next[bit]
+        return number ^ r.number
+
+class Solution:
+    def findMaximumXOR(self, nums: List[int]) -> int:
+        trie = Trie()
+        for num in nums:
+            trie.insert(num)
+        res = 0
+        for num in nums:
+            res = max(res, trie.find_max_xor(num))
+        return res
