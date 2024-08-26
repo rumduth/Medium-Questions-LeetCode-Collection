@@ -1,0 +1,38 @@
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param root: root of a tree
+    @return: head node of a doubly linked list
+    """
+    def treeToDoublyList(self, root):
+        # Write your code here.
+        head = None
+        tail = None
+        prev = None
+        def helper(current):
+            nonlocal head, tail, prev
+            if current is None:
+                return
+            helper(current.left)
+            if prev is None:
+                prev = current
+                head = current
+                print(head.val)
+            else:
+                prev.right = current
+                current.left = prev
+                prev = current
+            tail = prev
+            helper(current.right)
+        helper(root)
+        # print(head.val)
+        head.left = tail
+        tail.right = head
+        return head
