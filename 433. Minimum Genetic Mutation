@@ -1,0 +1,24 @@
+class Solution:
+    def minMutation(self, startGene: str, endGene: str, bank: List[str]) -> int:
+        if endGene not in bank:
+            return -1
+        
+        valid_mutations = set(bank)
+        
+        queue = deque([(startGene,0)])
+        while queue:
+            gene, num_mutations = queue.popleft()
+            if gene == endGene:
+                return num_mutations
+            gene = [x for x in gene]
+            for i in range(8):
+                for c in 'ACGT':
+                    current = gene[i]
+                    gene[i] = c
+                    mutated_gene = ''.join(gene)
+                    if mutated_gene in valid_mutations:
+                        queue.append((mutated_gene,num_mutations + 1))
+                        valid_mutations.remove(mutated_gene)
+                    gene[i] = current
+        
+        return -1
