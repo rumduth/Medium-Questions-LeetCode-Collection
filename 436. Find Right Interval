@@ -1,0 +1,34 @@
+class Solution:
+    def findRightInterval(self, intervals: List[List[int]]) -> List[int]:
+        new_intervals = [(x,y,i) for i, (x,y) in enumerate(intervals)]
+        new_intervals.sort()
+        n = len(intervals)
+        def binary_search(left, right, target):
+            while left < right:
+                middle = (left + right) >> 1
+                if new_intervals[middle][0] < target:
+                    left = middle + 1
+                else:
+                    right = middle
+            if left == n:
+                return -1
+            return new_intervals[left][2]
+
+        res = [-1] * n
+        for _ ,y ,i in new_intervals:
+            res[i] = binary_search(0, n,y)
+        return res
+
+
+
+class Solution:
+    def findRightInterval(self, intervals: List[List[int]]) -> List[int]:
+        new_intervals = [(x,i) for i, (x,_) in enumerate(intervals)]
+        new_intervals.sort()
+        n = len(intervals)
+
+        def find_right(target):
+            idx = bisect.bisect_left(new_intervals,(target,))
+            return new_intervals[idx][1] if idx < n else -1
+        
+        return [find_right(end) for _, end in intervals]
