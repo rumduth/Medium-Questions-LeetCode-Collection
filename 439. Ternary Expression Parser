@@ -1,0 +1,33 @@
+class Solution:
+    """
+    @param expression: a string, denote the ternary expression
+    @return: a string
+    """
+    def parse_ternary(self, expression: str) -> str:
+        # write your code here
+        stack = []
+        n = len(expression)
+        i = n - 1
+        while i >= 0:
+            while expression[i] != '?':
+                stack.append(expression[i]);
+                i -= 1
+            i -= 1
+
+            true_res = ""
+            false_res = ""
+            while stack[-1] != ':':
+                true_res += stack.pop()
+            stack.pop()
+            while stack and stack[-1] != ':':
+                false_res += stack.pop()
+
+            if expression[i] == 'T':
+                stack.append(true_res)
+            else:
+                stack.append(false_res)
+            i -= 1
+        return stack[-1]
+            
+        
+
