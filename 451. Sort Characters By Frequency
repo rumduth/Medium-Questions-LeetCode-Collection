@@ -1,0 +1,22 @@
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var frequencySort = function(s) {
+    let counter = {};
+    for(let c of s){
+        if(!(c in counter))
+            counter[c] = 0;
+        counter[c]++;
+    }
+    let arr = [];
+    for(let [k,v] of Object.entries(counter))
+        arr.push([v,k])
+    arr.sort((a,b) => b[0] - a[0]);
+    res = []
+    for(let [v,k] of arr){
+        for(let i = 0; i < v; i++)
+            res.push(k);
+    }
+    return res.join('');
+};
