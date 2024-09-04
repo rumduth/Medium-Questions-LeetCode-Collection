@@ -1,0 +1,20 @@
+class Solution:
+    def numberOfBoomerangs(self, points: List[List[int]]) -> int:
+    
+        n = len(points)
+        res = 0
+        for i in range(n):
+            cache = Counter()
+            x1, y1 = points[i]
+            for j in range(n):
+                if i == j:
+                    continue
+                x2, y2 = points[j]
+                distance = (x2 - x1) ** 2 + (y2 - y1) ** 2
+                cache[distance] += 1
+            for val in cache.values():
+                if val >= 2:
+                    res += val * (val-1)
+            
+        
+        return res
