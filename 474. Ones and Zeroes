@@ -1,0 +1,22 @@
+class Solution:
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+        def count_zero_and_one(s):
+            zeroes = 0
+            ones = 0
+            for c in s:
+                if c == '0':
+                    zeroes += 1
+                else:
+                    ones += 1
+            return [zeroes, ones]
+        dp = [[0] * (n + 1) for _ in range(m+1)]
+        for s in strs:
+            zeroes, ones = count_zero_and_one(s)
+            for i in range(m, -1, -1):
+                for j in range(n, -1, -1):
+                    if zeroes > i or ones > j:
+                        continue
+                    dp[i][j] = max(dp[i][j], 1 + dp[i-zeroes][j-ones])
+        
+        return dp[m][n]
+
