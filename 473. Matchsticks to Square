@@ -1,0 +1,32 @@
+from functools import lru_cache
+class Solution:
+    def makesquare(self, matchsticks: List[int]) -> bool:
+        sum_length = sum(matchsticks)
+        if sum_length % 4 != 0:
+            return False
+        side = sum_length // 4
+        if max(matchsticks) > side:
+            return False
+        n = len(matchsticks)
+        used_stick = 0
+        #state: current_sum, side_count, used_sticks
+        @lru_cache(None)
+        def dfs(current_sum,side_count,used_sticks):
+            if side_count == 4:
+                return True
+            for i in range(n):
+                if (used_sticks >> i) & 1 or (current_sum + matchsticks[i]) > side:
+                    continue
+                if current_sum + matchsticks[i] == side:
+                    if dfs(0,side_count+1, used_sticks | (1 << i)):
+                        return True
+                if dfs(current_sum + matchsticks[i], side_count, used_sticks | (1 << i)):
+                    return True
+            
+            return False
+        
+        return dfs(0,0,0)
+                 
+
+
+
