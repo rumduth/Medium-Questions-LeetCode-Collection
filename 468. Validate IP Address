@@ -1,0 +1,27 @@
+class Solution:
+    def validIPAddress(self, queryIP: str) -> str:
+        def validate_IPv4(ip):
+            segments = ip.split('.')
+            if len(segments) != 4:
+                return "Neither"
+            for segment in segments:
+                if not segment.isdigit() or int(segment) > 255 or (segment[0] == '0' and len(segment) > 1):
+                    return "Neither"
+            return "IPv4"
+        
+        def validate_IPv6(ip):
+            segments = ip.split(':')
+            if len(segments) != 8:
+                return "Neither"
+            for segment in segments:
+                if not segment or not len(segment) <= 4 or not all(c in "abcdefABCDEF0123456789" for c in segment):
+                    return "Neither"
+            return "IPv6"
+        
+        if "." in queryIP:
+            return validate_IPv4(queryIP)
+        elif ":" in queryIP:
+            return validate_IPv6(queryIP)
+        else:
+            return "Neither"
+        
