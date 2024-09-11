@@ -1,0 +1,28 @@
+class Solution:
+    def circularArrayLoop(self, nums: List[int]) -> bool:
+        n = len(nums)
+        def helper(slow, fast, forward):
+            while slow != fast:
+                if nums[fast] * forward < 0:
+                    return False
+                fast = (fast + nums[fast] + n) % n
+                if nums[fast] * forward < 0:
+                    return False
+                fast = (fast + nums[fast] + n) % n
+                slow = (slow + nums[slow] + n) % n
+            if (slow + nums[slow] + n) % n == fast:
+                return False
+            return True
+
+        
+            
+        for i in range(n):
+            slow = i
+            fast = (i + nums[i] + n) % n
+            forward = 1 if nums[i] > 0 else -1
+            if slow == fast:
+                continue
+            if helper(slow,fast,forward):
+                return True
+        
+        return False
