@@ -17,3 +17,21 @@ class Solution:
             cache[(used_numbers),current_sum] = False
             return False
         return can_win(0,0)
+
+
+from functools import lru_cache
+class Solution:
+    def canIWin(self, maxChoosableInteger: int, desiredTotal: int) -> bool:
+        if sum(range(1,maxChoosableInteger+1)) < desiredTotal:
+            return False
+
+        @lru_cache(maxsize=None)
+        def can_win(state, current_score):
+            for integer in range(1,maxChoosableInteger+1):
+                if (state >> integer) & 1:
+                    continue
+                if  current_score + integer >= desiredTotal or not can_win( (1 << integer) | state, current_score + integer):
+                    return True
+            return False
+        
+        return can_win(0,0)
