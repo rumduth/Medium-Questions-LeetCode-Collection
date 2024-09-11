@@ -1,0 +1,11 @@
+class Solution:
+    def minMoves2(self, nums: List[int]) -> int:
+        nums.sort()
+        n = len(nums)
+        def helper(target):
+            res = 0
+            for num in nums:
+                res += abs(num - target)
+            return res
+        
+        return helper(nums[n//2])
