@@ -1,0 +1,24 @@
+class Solution:
+    def findRadius(self, houses: List[int], heaters: List[int]) -> int:
+       
+
+        #Step 1: sort both houses and heaters
+        houses.sort()
+        heaters.sort()
+
+        #Step 2: Find the nearest heater on the left and on the right of each house
+        #Step 3: Find the min distance between left and right
+        #Step 4: For the max distance of theses min distances in step 3
+        res = 0
+        for house in houses:
+            min_distance = float('inf')
+            left_heater_index = bisect.bisect_left(heaters,house) - 1
+            right_heater_index = bisect.bisect_left(heaters,house)
+            if left_heater_index >= 0:
+                min_distance = min(min_distance, house - heaters[left_heater_index])
+            if right_heater_index < len(heaters):
+                min_distance = min(min_distance, heaters[right_heater_index] - house)
+            
+            res = max(res,min_distance)
+        return res
+
