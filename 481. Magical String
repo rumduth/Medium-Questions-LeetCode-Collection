@@ -1,0 +1,33 @@
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var magicalString = function(n) {
+    if(n <= 3) return 1;
+    let seq = [1,2,2];
+    let j = 2;
+    let prevNumber = 2;
+    for(let i = 3; i <= n && seq.length <= n; i++){
+        let nextNumber;
+        if(prevNumber == 2)
+            nextNumber = 1;
+        else
+            nextNumber = 2;
+        for(let k = 0; k < seq[j]; k++){
+            seq.push(nextNumber);
+        }
+        prevNumber = nextNumber;
+        j += 1
+    }
+
+    let res = 0;
+    for(let i = 0; i < n; i++){
+        res += (seq[i] == 1) ? 1 : 0;
+    }
+    return res;
+};
+
+/*
+
+122 112 122 122 112 1122
+*/
