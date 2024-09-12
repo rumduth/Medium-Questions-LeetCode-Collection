@@ -1,0 +1,21 @@
+class Solution:
+    def findSubsequences(self, nums: List[int]) -> List[List[int]]:
+        seq = []
+        res = []
+        n = len(nums)
+        def backtrack(i):
+            if len(seq) >= 2:
+                res.append(seq[:])
+            used = set()
+            for j in range(i,n):
+                if nums[j] in used:
+                    continue
+                if not seq or nums[j] >= seq[-1]:
+                    used.add(nums[j])
+                    seq.append(nums[j])
+                    backtrack(j + 1)
+                    seq.pop()
+
+    
+        backtrack(0)
+        return res
