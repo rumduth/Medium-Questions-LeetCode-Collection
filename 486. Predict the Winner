@@ -1,0 +1,52 @@
+from functools import lru_cache
+class Solution:
+    def predictTheWinner(self, nums: List[int]) -> bool:
+        n = len(nums)
+        #state: start, end, current_score
+        total_score = sum(nums)
+
+        def total_picked(left, right):
+            total = 0
+            for i in range(left+1):
+                total += nums[i]
+            for j in range(right, n):
+                total += nums[j]
+            return total
+
+        @lru_cache
+        def can_win(left, right, current_sum, first_person):
+
+            if left == right:
+                if current_sum + nums[left] > (total_score) / 2:
+                    return True
+                if current_sum + nums[left] == (total_score) / 2:
+                    if first_person:
+                        return True
+                return False
+            
+            if (current_sum + nums[left]) > (total_score) / 2 or (current_sum + nums[right]) > (total_score) / 2:
+                return True
+            if (current_sum + nums[left]) == (total_score) / 2 or (current_sum + nums[right]) == (total_score) / 2:
+                if first_person:
+                    return True
+                
+            current_total_picked = total_picked(left-1,right+1)
+            if not can_win(left+1,right, current_total_picked - current_sum, not first_person) or not can_win(left,right-1, current_total_picked - current_sum, not first_person):
+                return True
+            return False
+        
+        return can_win(0,n-1,0, True)
+
+
+from functools import lru_cache
+class Solution:
+    def predictTheWinner(self, nums: List[int]) -> bool:
+        @lru_cache(None)
+        def max_score(left, right):
+            if left > right:
+                return 0
+            left_choice = nums[left] + min(max_score(left+2,right),max_score(left+1,right-1))
+            right_choice = nums[right] + min(max_score(left,right-2),max_score(left+1,right-1)) 
+            return max(left_choice,right_choice)
+
+        return max_score(0,len(nums) - 1) >= sum(nums) / 2;       
