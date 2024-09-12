@@ -1,0 +1,32 @@
+from functools import lru_cache
+
+class Solution:
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        if target > sum(nums):
+            return 0
+    
+        S = sum(nums)
+        T = target
+
+        if (S - T) % 2 != 0:
+            return 0
+        our_target = (S - T) // 2
+        dp = [0] * (our_target + 1)
+        dp[0] = 1
+
+        for coin in nums:
+            for amount in range(our_target, coin-1, -1):
+                if amount < coin:
+                    continue
+                dp[amount] += dp[amount - coin]
+        
+        return dp[our_target]
+
+                
+
+
+     
+        
+
+
+
