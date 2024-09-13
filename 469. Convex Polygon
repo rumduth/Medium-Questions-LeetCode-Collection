@@ -1,0 +1,38 @@
+from typing import (
+    List,
+)
+
+class Solution:
+    """
+    @param point: a list of two-tuples
+    @return: a boolean, denote whether the polygon is convex
+    """
+    def is_convex(self, point: List[List[int]]) -> bool:
+        # write your code here
+        
+        def helper(a,b,c):
+            x1, y1 = a
+            x2, y2 = b
+            x3, y3 = c
+            v1 = [x2 - x1, y2 - y1]
+            v2 = [x3 - x2, y3 - y2]
+            cross_product = v1[0] * v2[1] - v1[1] * v2[0]
+            return cross_product
+        
+        n = len(point)
+        sign = None
+        for i in range(n):
+            a = i
+            b = (i + 1 + n) % n
+            c = (i + 2 + n) % n
+            cross_product = helper(point[a],point[b],point[c])
+            if cross_product == 0:
+                continue
+            if sign is None:
+                sign = cross_product > 0
+            elif (cross_product > 0) != sign:
+                return False
+        
+        return True
+            
+
