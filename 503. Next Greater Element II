@@ -1,0 +1,54 @@
+496. Next Greater Element I
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
+var nextGreaterElement = function(nums1, nums2) {
+    let stack = [];
+    let nextIndex = Array.from({length: nums2.length}, (val) => -1);
+    let res = []
+    for(let i = 0; i < nums2.length; i++){
+        if(!stack.length || nums2[i] < nums2[stack[stack.length - 1]])
+            stack.push(i);
+        else{
+            while(stack.length && nums2[i] > nums2[stack[stack.length - 1]])
+                nextIndex[stack.pop()] = nums2[i];
+            stack.push(i);
+        }
+    }
+    let map = new Map();
+    for(let i = 0; i < nums2.length; i++)
+        map.set(nums2[i],i);
+    
+    for(let i = 0; i < nums1.length; i++){
+        let number = nums1[i];
+        let index_in_nums2 = map.get(number);
+        res.push(nextIndex[index_in_nums2]);
+    }
+    return res;
+};
+
+
+503. Next Greater Element II
+
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var nextGreaterElements = function(nums) {
+    let arr = [...nums,...nums];
+    let n = nums.length
+    let nextElements = new Array(2*n).fill(-1);
+    let stack = [];
+    for(let i = 0; i < 2 * n; i++){
+        while(stack.length && arr[stack[stack.length - 1]] < arr[i]){
+            nextElements[stack.pop()] = arr[i];
+        }
+        stack.push(i);
+    }
+    return nextElements.slice(0,n)
+    
+};
+
+
