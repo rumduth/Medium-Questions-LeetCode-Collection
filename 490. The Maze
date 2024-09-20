@@ -1,0 +1,37 @@
+export class Solution {
+  /**
+   * @param maze: the maze
+   * @param start: the start
+   * @param destination: the destination
+   * @return: whether the ball could stop at the destination
+   */
+  hasPath(maze, start, destination) {
+    // write your code here
+    if(JSON.stringify(start) === JSON.stringify(destination))
+      return true;
+    let m = maze.length;
+    let n = maze[0].length;
+    let dir = [0,1,0,-1,0]
+    let queue = [[...start,0],[...start,1],[...start,2],[...start,3]];
+    let visited = new Set()
+
+    while(queue.length){
+      let stopPoint = queue.shift();
+      if(JSON.stringify(stopPoint.slice(0,2)) === JSON.stringify(destination))
+        return true;
+      visited.add(JSON.stringify(stopPoint.slice(0,2)));
+      let [r, c, i] = stopPoint;
+      while(r + dir[i] >= 0 && r + dir[i] < m && c + dir[i+1] >= 0 && c + dir[i+1] < n && maze[r+dir[i]][c+dir[i+1]] != 1){
+        r += dir[i];
+        c += dir[i+1];
+      }
+      if(!visited.has(JSON.stringify([r,c]))){
+        visited.add(JSON.stringify([r,c]));
+        queue.push([r,c,(i+1) % 4]);
+        queue.push([r,c,(i-1 + 4) % 4]);
+      }
+    }
+    return false;
+
+  }
+}
