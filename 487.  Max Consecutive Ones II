@@ -1,0 +1,54 @@
+1212 · Max Consecutive Ones
+export class Solution {
+  /**
+   * @param nums: a binary array
+   * @return:  the maximum number of consecutive 1s
+   */
+  findMaxConsecutiveOnes(nums) {
+    // Write your code here
+    let res = 0;
+    let cnt = 0;
+    for(let c of nums){
+      if(c == 0){
+        cnt = 0;
+      }else{
+        cnt += 1;
+        res = Math.max(res,cnt);
+      }
+    }
+    return res;
+  }
+}
+
+
+487.  Max Consecutive Ones II
+export class Solution {
+  /**
+   * @param nums: a list of integer
+   * @return: return a integer, denote  the maximum number of consecutive 1s
+   */
+  findMaxConsecutiveOnes(nums) {
+    // write your code here
+    let flipped = 0;
+    let res = 0;
+    let cnt = 0;
+    let left = 0;
+    for(let right = 0; right < nums.length; right++){
+      if(nums[right] == 1){
+        cnt += 1;
+      }else{
+        flipped += 1;
+        while(flipped > 1){
+          if(nums[left] == 0)
+            flipped -= 1;
+          else
+            cnt -= 1;
+          left += 1;
+          cnt += 1;
+        }
+      }
+      res = Math.max(res, right - left + 1);
+    }
+    return res
+  }
+}
