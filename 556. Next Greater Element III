@@ -1,0 +1,36 @@
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var nextGreaterElement = function(n) {
+    let max_num = Math.pow(2,31) - 1
+    let res = String(n).split("").map(el => +el);
+    function reverse(i, j){
+        while(i < j){
+            [res[i],res[j]] = [res[j],res[i]];
+            i++;
+            j--;
+        }
+    }
+    let len = res.length;
+    let i = len - 2;
+    while(i >= 0 && res[i] >= res[i+1])
+        i--;
+    if(i < 0)
+        return -1;
+    let j = i + 1;
+    while(j < res.length && res[j] > res[i])
+        j++;
+    j -= 1;
+ 
+    [res[i],res[j]] = [res[j],res[i]];
+    reverse(i+1,len-1);
+    res = +res.join('');
+    
+    if(res <= max_num){
+        return res;
+    }
+
+    return -1
+
+};
