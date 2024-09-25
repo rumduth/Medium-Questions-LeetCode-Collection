@@ -1,0 +1,35 @@
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var findFrequentTreeSum = function(root) {
+    let map = new Map();
+    let maxFreq = 0;
+    function dfs(root){
+        if(!root)
+            return 0;
+        let leftSum = dfs(root.left);
+        let rightSum = dfs(root.right);
+        let currentSum = leftSum + rightSum + root.val;
+        let val = map.get(currentSum) ?? 0;
+        map.set(currentSum, val + 1);
+        maxFreq = Math.max(maxFreq,map.get(currentSum));
+        return currentSum;
+    }
+    dfs(root)
+    let res = [];
+    for(let [k, v] of map){
+        if(v === maxFreq)
+            res.push(k);
+    }
+    return res;
+
+};
