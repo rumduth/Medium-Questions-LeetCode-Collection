@@ -1,0 +1,38 @@
+class Solution {
+private:
+    int m;
+    int n;
+    unordered_set<string> visited;
+public:
+    Solution(int m, int n) {
+        this->m = m;
+        this->n = n;
+    }
+    
+    vector<int> flip() {
+        if(this->visited.size() == this->m * this->n) return {};
+        int idx;
+        string key;
+        do{
+            idx = rand() % (m * n);
+            int row = idx / n;
+            int col = idx  % n;
+            key = to_string(row) + '-' + to_string(col);
+        }while(visited.find(key) != visited.end());
+        visited.insert(key);
+        int row = idx / n;
+        int col = idx % n;
+        return {row, col};
+    }
+    
+    void reset() {
+        this->visited.clear();
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(m, n);
+ * vector<int> param_1 = obj->flip();
+ * obj->reset();
+ */
